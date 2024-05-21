@@ -1,10 +1,10 @@
-public class AttackState : CharacterState {
+public class AttackState : CharacterBaseState {
     public override void OnUpdate() {
         base.OnUpdate();
 
-        // Transition to idle when animation is ended
+        // Transition to Idle when animation is ended
         if (!_stateAnimation.AnimatedSprite.IsPlaying) {
-            character.TransitionToState(State.Idle);
+            _character.TransitionToState(CharacterState.Idle);
         }
     }
 }

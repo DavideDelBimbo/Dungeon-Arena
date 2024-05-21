@@ -8,10 +8,7 @@ public class StateAnimation : MonoBehaviour {
 
     private AnimatedSprite _animatedSprite;
 
-    public AnimatedSprite AnimatedSprite {
-        get => _animatedSprite;
-        private set => _animatedSprite = value;
-    }
+    public AnimatedSprite AnimatedSprite { get => _animatedSprite; private set => _animatedSprite = value; }
 
     void Awake() {
         _animatedSprite = GetComponent<AnimatedSprite>();

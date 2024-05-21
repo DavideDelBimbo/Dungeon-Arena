@@ -14,15 +14,9 @@ public class AnimatedSprite : MonoBehaviour {
     public SpriteRenderer _spriteRenderer;
     private Coroutine _animationCoroutine;
 
-    public Sprite[] Frames {
-        get => _frames;
-        set => _frames = value;
-    }
+    public Sprite[] Frames { get => _frames; set => _frames = value; }
 
-    public int FrameIndex {
-        get => _frameIndex;
-        private set => _frameIndex = value % _frames.Length;
-    }
+    public int FrameIndex { get => _frameIndex; private set => _frameIndex = value % _frames.Length; }
 
     public bool IsPlaying => _animationCoroutine != null;
 

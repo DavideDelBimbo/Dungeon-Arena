@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7688181181998618787}
   - component: {fileID: 8850750825064066038}
   - component: {fileID: 1036979194668047802}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 6611160034688303543}
   - component: {fileID: 2473969538339245591}
   - component: {fileID: 6537371875949612364}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Walk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,6 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
-      - {fileID: 420461009, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -432991363, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -1600614169, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -364883919, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
@@ -279,7 +278,6 @@ MonoBehaviour:
       - {fileID: 109258423, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
     - Key: 1
       Value:
-      - {fileID: 1869697639, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -1952461771, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -371380576, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -265233392, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
@@ -290,7 +288,6 @@ MonoBehaviour:
       - {fileID: -567766449, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
     - Key: 2
       Value:
-      - {fileID: 828261678, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: 1157262425, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: 1809862919, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -1503428452, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
@@ -301,7 +298,6 @@ MonoBehaviour:
       - {fileID: -488203112, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
     - Key: 3
       Value:
-      - {fileID: -471686093, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: -1180747634, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: 1303140956, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
       - {fileID: 42707673, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
@@ -322,7 +318,7 @@ GameObject:
   - component: {fileID: 715850627358708833}
   - component: {fileID: 5503719934768180826}
   - component: {fileID: 1709759293862494286}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Idle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2504316788095952950}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: State Animations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,11 +484,13 @@ GameObject:
   - component: {fileID: 1167735737172569335}
   - component: {fileID: 1562799455761671198}
   - component: {fileID: 1896868162949043362}
+  - component: {fileID: 8530060783788941309}
+  - component: {fileID: 5431388037241296693}
   - component: {fileID: 6528308571770589335}
   - component: {fileID: 4533778831047758568}
   - component: {fileID: 8751603455128061416}
   - component: {fileID: 1319468017108070232}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,6 +554,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _initialDirection: 0
+--- !u!114 &8530060783788941309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197475634597744819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d47fac20662ce41acc492edc335b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5431388037241296693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197475634597744819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a008a69b053924bbdd7ecc417be9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6528308571770589335
 MonoBehaviour:
   m_ObjectHideFlags: 0

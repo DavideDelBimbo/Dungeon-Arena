@@ -2,26 +2,28 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum State { Idle, Walk, Attack }
+public enum CharacterState { Idle, Walk, Attack }
 public enum FacingDirection { Up, Down, Left, Right }    
 
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(IInputHandler))]
 [RequireComponent(typeof(IdleState))]
 [RequireComponent(typeof(WalkState))]
 [RequireComponent(typeof(AttackState))]
 public class Character : MonoBehaviour {
     [Header("States")]
-    [SerializeField] private State _initialState = State.Idle;
+    [SerializeField] private CharacterState _initialState = CharacterState.Idle;
     [SerializeField] private FacingDirection _initialFacingDirection = FacingDirection.Down;
 
     public IdleState IdleState { get; private set; }
     public WalkState WalkState { get; private set; }
     public AttackState AttackState { get; private set; }
 
-    public State CurrentState { get; private set; }
+    public CharacterBaseState CurrentState { get; private set; }
     public FacingDirection CurrentFacingDirection { get; set; }
 
     public Movement Movement { get; private set; }
+    public IInputHandler InputHandler { get; set; }
 
     private void Awake() {
         IdleState = GetComponent<IdleState>();
@@ -31,6 +33,7 @@ public class Character : MonoBehaviour {
         CurrentFacingDirection = _initialFacingDirection;
 
         Movement = GetComponent<Movement>();
+        InputHandler = GetComponent<IInputHandler>();
     }
 
     private void Start() {
@@ -40,21 +43,21 @@ public class Character : MonoBehaviour {
 
     private void Update() {
         // Update the current state.
-        GetCharacterState(CurrentState).OnUpdate();
+        CurrentState.OnUpdate();
     }
 
-    public void TransitionToState(State nextState) {
-        GetCharacterState(CurrentState)?.OnExit();
-        CurrentState = nextState;
-        GetCharacterState(CurrentState).OnEnter();
+    public void TransitionToState(CharacterState nextState) {
+        CurrentState?.OnExit();
+        CurrentState = GetCharacterState(nextState);
+        CurrentState.OnEnter();
     }
 
-    private CharacterState GetCharacterState(State state) {
+    private CharacterBaseState GetCharacterState(CharacterState state) {
         return state switch {
-            State.Idle => IdleState,
-            State.Walk => WalkState,
-            State.Attack => AttackState,
-            _ => throw new ArgumentOutOfRangeException("Invalid state")
+            CharacterState.Idle => IdleState,
+            CharacterState.Walk => WalkState,
+            CharacterState.Attack => AttackState,
+            _ => throw new ArgumentOutOfRangeException("Invalid character state")
         };
     }
 

@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public abstract class CharacterState : MonoBehaviour, IState {
+[RequireComponent(typeof(Character))]
+public abstract class CharacterBaseState : MonoBehaviour, IState {
+    [Header("State Settings")]
     [SerializeField] protected StateAnimation _stateAnimation;
 
-    protected Character character;
+    protected Character _character;
 
     protected virtual void Awake() {
-        character = GetComponent<Character>();
+        _character = GetComponent<Character>();
     }
 
     public virtual void OnEnter() {
-        _stateAnimation.Play(character.CurrentFacingDirection);
+        _stateAnimation.Play(_character.CurrentFacingDirection);
     }
 
     public virtual void OnUpdate() {}

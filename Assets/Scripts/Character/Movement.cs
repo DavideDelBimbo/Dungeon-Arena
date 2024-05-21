@@ -2,14 +2,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour {
-    private enum PossibleDirection {Stop, Up, Down, Left, Right}
+    private enum PossibleDirection { Stop, Up, Down, Left, Right }
 
     [Header("Movement Settings")]
     [SerializeField] float _speed = 5.0f;
     [SerializeField] PossibleDirection _initialDirection = PossibleDirection.Stop;
 
-    public Vector2 CurrentDirection {get; set;}
-    public Rigidbody2D Body {get; private set;}
+    public Vector2 CurrentDirection { get; set; }
+    public Rigidbody2D Body { get; private set; }
 
     void Awake() {
         Body = GetComponent<Rigidbody2D>();
