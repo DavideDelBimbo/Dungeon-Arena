@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class WaitState : EnemyBaseState {
+public class WaitState : EnemyState {
     [Header("State Settings")]
     [SerializeField] private float _duration = 2f;
+
 
     public override void OnEnter() {
         base.OnEnter();
@@ -15,13 +16,14 @@ public class WaitState : EnemyBaseState {
     public override void OnUpdate() {
         base.OnUpdate();
 
-        // Transition to Chase state if player is in range.
-        if (Vector2.Distance(_enemy.transform.position, InputHandler.Target.transform.position) <= InputHandler.DetectionRange) {
-            _enemy.TransitionToState(EnemyState.Chase);
+        // Transition to Chase state if target is in range.
+        RaycastHit2D hit = Physics2D.CircleCast(_context.transform.position, InputHandler.DetectionRange, Vector2.zero, 0, _context.TargetLayer);
+        if (hit.collider != null) {
+            _context.StateMachine.TransitionToState(_context.ChaseState);
         }
     }
 
     private void TransitionToPatrol() {
-        _enemy.TransitionToState(EnemyState.Patrol);
+        _context.StateMachine.TransitionToState(_context.PatrolState);
     }
 }

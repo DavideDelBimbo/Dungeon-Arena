@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,13 +13,20 @@ public class AnimatedSprite : MonoBehaviour {
     public SpriteRenderer _spriteRenderer;
     private Coroutine _animationCoroutine;
 
-    public Sprite[] Frames { get => _frames; set => _frames = value; }
 
-    public int FrameIndex { get => _frameIndex; private set => _frameIndex = value % _frames.Length; }
+    public Sprite[] Frames {
+        get => _frames;
+        set => _frames = value;
+    }
+
+    public int FrameIndex {
+        get => _frameIndex;
+        private set => _frameIndex = value % Frames.Length;
+    }
 
     public bool IsPlaying => _animationCoroutine != null;
+    private bool IsLastFrame => FrameIndex == (Frames.Length + _startFrameIndex) % Frames.Length;
 
-    private bool IsLastFrame => this.FrameIndex == (this._frames.Length + this._startFrameIndex) % this._frames.Length;
 
     private void Awake() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -32,7 +38,7 @@ public class AnimatedSprite : MonoBehaviour {
 
         // Set the frame index to the start frame.
         FrameIndex = _startFrameIndex;
-        _spriteRenderer.sprite = _frames[FrameIndex];
+        _spriteRenderer.sprite = Frames[FrameIndex];
 
         // Start the animation coroutine.
         _spriteRenderer.enabled = true;
@@ -49,9 +55,11 @@ public class AnimatedSprite : MonoBehaviour {
 
         // Reset the frame index to the start frame.
         FrameIndex = _startFrameIndex;
-        _spriteRenderer.sprite = _frames[FrameIndex];
+        _spriteRenderer.sprite = Frames[FrameIndex];
     }
 
+
+    // Set the next frame of the animation.
     private IEnumerator Animate() {
         while (true) {
             // Wait for the refresh time.
@@ -59,7 +67,7 @@ public class AnimatedSprite : MonoBehaviour {
 
             // Get the next frame.
             FrameIndex++;
-            _spriteRenderer.sprite = _frames[_frameIndex];
+            _spriteRenderer.sprite = Frames[_frameIndex];
 
             // Stop the animation if it's not looping and it's the last frame.
             if (!_loop && IsLastFrame) {

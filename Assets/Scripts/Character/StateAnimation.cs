@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
+using static Character;
 
 [RequireComponent(typeof(AnimatedSprite))]
 public class StateAnimation : MonoBehaviour {
@@ -8,18 +9,23 @@ public class StateAnimation : MonoBehaviour {
 
     private AnimatedSprite _animatedSprite;
 
-    public AnimatedSprite AnimatedSprite { get => _animatedSprite; private set => _animatedSprite = value; }
+
+    public AnimatedSprite AnimatedSprite {
+        get => _animatedSprite;
+        private set => _animatedSprite = value;
+    }
+
 
     void Awake() {
-        _animatedSprite = GetComponent<AnimatedSprite>();
+        AnimatedSprite = GetComponent<AnimatedSprite>();
     }
 
     public void Play(FacingDirection direction) {
-        _animatedSprite.Frames = _frames[direction];
-        _animatedSprite.Play();
+        AnimatedSprite.Frames = _frames[direction];
+        AnimatedSprite.Play();
     }
 
     public void Stop() {
-        _animatedSprite.Stop();
+        AnimatedSprite.Stop();
     }
 }
