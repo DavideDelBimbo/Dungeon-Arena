@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
@@ -12,8 +11,7 @@ public class Enemy : MonoBehaviour {
 
 
     [Header("Enemy Settings")]
-    [SerializeField] private Transform _target;
-    [SerializeField] private LayerMask _targetLayer;
+    [SerializeField] private Player _player;
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Wait;
@@ -23,14 +21,14 @@ public class Enemy : MonoBehaviour {
     public Movement Movement { get; private set; }
     public IInputHandler InputHandler { get; private set; }
 
-    public Transform Target { get => _target; private set => _target = value; }
-    public LayerMask TargetLayer { get => _targetLayer; private set => _targetLayer = value; }
+    public Player Player { get => _player; private set => _player = value; }
 
     public EnemyStateMachine StateMachine { get; private set; }
     public WaitState WaitState { get; private set; }
     public PatrolState PatrolState { get; private set; }
     public ChaseState ChaseState { get; private set; }
     public VulnerableState VulnerableState { get; private set; }
+
 
 
     private void Awake() {

@@ -4,7 +4,7 @@ public abstract class StateMachine<T, S> where T : MonoBehaviour where S : BaseS
     protected T _context;
 
 
-    protected S CurrentState { get; private set; }
+    public S CurrentState { get; private set; }
 
 
     public StateMachine(T context) {

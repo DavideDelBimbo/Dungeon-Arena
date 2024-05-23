@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5ea60a0f390d248818778abbee178a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _previewSprite: {fileID: 1291244091, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
   _initialState: 0
   _initialFacingDirection: 1
 --- !u!114 &6850391122231729808
@@ -268,8 +269,8 @@ GameObject:
   - component: {fileID: 9097000240734264995}
   - component: {fileID: 5694294120584659047}
   - component: {fileID: 8440736282015050841}
-  - component: {fileID: 5500899323957171953}
   - component: {fileID: 2336115665183128907}
+  - component: {fileID: 5500899323957171953}
   - component: {fileID: 6019356781086506733}
   - component: {fileID: 1837509716172334521}
   - component: {fileID: 4706232982999839776}
@@ -373,24 +374,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _initialDirection: 0
---- !u!114 &5500899323957171953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3731013529355331480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9145536f403b47a4c9c34a9e17d8a14b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _character: {fileID: 6177444381792876150}
-  _target: {fileID: 0}
-  _targetLayer:
+  _stepSize: 0.1
+  _obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
-  _initialState: 0
+    m_Bits: 64
 --- !u!114 &2336115665183128907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,9 +392,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectionRange: 5
   _attackRange: 1.5
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
   _showGizmos: 1
+  _gizmoLineOfSightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _gizmoDetectionColor: {r: 0, g: 1, b: 0, a: 1}
+  _gizmoDetectedColor: {r: 1, g: 0, b: 0, a: 1}
   _gizmoAttackColor: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &5500899323957171953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3731013529355331480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9145536f403b47a4c9c34a9e17d8a14b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _initialState: 0
 --- !u!114 &6019356781086506733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ac95812a35d19419eab39290a2b999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waypoint: {fileID: 0}
+  _patrolRadius: 3
+  _randomRangeTime: {x: 1, y: 3}
 --- !u!114 &4706232982999839776
 MonoBehaviour:
   m_ObjectHideFlags: 0

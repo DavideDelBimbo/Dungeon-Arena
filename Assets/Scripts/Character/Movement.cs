@@ -9,6 +9,10 @@ public class Movement : MonoBehaviour {
     [Header("Movement Settings")]
     [SerializeField] float _speed = 5.0f;
     [SerializeField] AllowedDirection _initialDirection = AllowedDirection.Stop;
+    [SerializeField] float _stepSize = 1.0f;
+    [SerializeField] LayerMask _obstacleLayer;
+
+    private Transform _movePoint;
 
 
     public Vector2 CurrentDirection { get; set; }
@@ -21,21 +25,36 @@ public class Movement : MonoBehaviour {
 
     void Start() {
         CurrentDirection = ConvertAllowedDirectionToVector(_initialDirection);
+
+        // Create a move point object representing the next target position to which the object will move.
+        _movePoint = new GameObject("Move Point").transform;
+        _movePoint.position = Body.position;
     }
 
     void FixedUpdate() {
-        Move();
+        MoveTowardsTarget();
     }
 
 
-    // Move the object in the direction of the vector with defined speed from the start position.
-    private void Move() {
-        // Get the current position of the object and the translation vector.
-        Vector2 startPosition = Body.position;
-        Vector2 translation = _speed * Time.fixedDeltaTime * CurrentDirection;
+    // Move the object in the direction of the move point with defined speed and step size (grid-base movement).
+    private void MoveTowardsTarget() {
+        // Move the object towards the move point.
+        Body.MovePosition(Vector2.MoveTowards(Body.position, _movePoint.position, _speed * Time.deltaTime));
 
-        // Move the object to the new position.
-        Body.MovePosition(startPosition + translation);
+        // If the object is close enough to the move point, move the move point to the next position.
+        if (Vector2.Distance(Body.position, _movePoint.position) <= Mathf.Epsilon) {
+            if (Mathf.Abs(CurrentDirection.x) == 1f) {
+                Vector3 targetPosition = _movePoint.position + new Vector3(CurrentDirection.x * _stepSize, 0f, 0f);
+                if (!Physics2D.OverlapCircle(targetPosition, _stepSize/2, _obstacleLayer)) {
+                    _movePoint.position = targetPosition;
+                }
+            } else if (Mathf.Abs(CurrentDirection.y) == 1f) {
+                Vector3 targetPosition = _movePoint.position + new Vector3(0f, CurrentDirection.y * _stepSize, 0f);
+                if (!Physics2D.OverlapCircle(targetPosition, _stepSize/2, _obstacleLayer)) {
+                    _movePoint.position = targetPosition;
+                }
+            }
+        }
     }
 
     // Get the direction vector based on the allowed direction value.

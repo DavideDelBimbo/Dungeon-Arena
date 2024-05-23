@@ -7,7 +7,9 @@ public class WaitState : EnemyState {
 
     public override void OnEnter() {
         base.OnEnter();
-        InputHandler.SetMovement(Vector2.zero);
+
+        // Set the movement strategy.
+        InputHandler.SetMovementStrategy(new WaitMovementStrategy());
 
         // Invoke the transition to Patrol state after the duration.
         Invoke(nameof(TransitionToPatrol), _duration);
@@ -16,12 +18,12 @@ public class WaitState : EnemyState {
     public override void OnUpdate() {
         base.OnUpdate();
 
-        // Transition to Chase state if target is in range.
-        RaycastHit2D hit = Physics2D.CircleCast(_context.transform.position, InputHandler.DetectionRange, Vector2.zero, 0, _context.TargetLayer);
-        if (hit.collider != null) {
+        // Transition to Chase state if player is detected.
+        if (InputHandler.IsPlayerDetected) {
             _context.StateMachine.TransitionToState(_context.ChaseState);
         }
     }
+
 
     private void TransitionToPatrol() {
         _context.StateMachine.TransitionToState(_context.PatrolState);

@@ -212,6 +212,10 @@ PrefabInstance:
       propertyPath: _frames._serializedList.Array.data[3].Value.Array.data[1]
       value: 
       objectReference: {fileID: 1691374840, guid: 29ddc732fc3671e4e8c281168558e60c, type: 3}
+    - target: {fileID: 4441977309235708708, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _previewSprite
+      value: 
+      objectReference: {fileID: 1468401280, guid: 29ddc732fc3671e4e8c281168558e60c, type: 3}
     - target: {fileID: 6197475634597744819, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Name
       value: Knight

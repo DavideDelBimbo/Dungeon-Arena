@@ -8,10 +8,15 @@ public class Character : MonoBehaviour {
     public enum FacingDirection { Up, Down, Left, Right }   
 
 
+    [Header("Character Settings")]
+    [SerializeField] private Sprite _previewSprite;
+
     [Header("States")]
     [SerializeField] private State _initialState = State.Idle;
     [SerializeField] private FacingDirection _initialFacingDirection = FacingDirection.Down;
 
+
+    public Sprite PreviewSprite => _previewSprite;
 
     public Movement Movement { get; set; }
     public IInputHandler InputHandler { get; set; }
