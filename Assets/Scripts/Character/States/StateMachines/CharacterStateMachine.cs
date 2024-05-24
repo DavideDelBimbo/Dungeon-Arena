@@ -23,6 +23,7 @@ public class CharacterStateMachine : StateMachine<Character, CharacterState> {
         State.Idle => _context.IdleState,
         State.Walk => _context.WalkState,
         State.Attack => _context.AttackState,
+        State.Dead => _context.DeadState,
         _ => throw new InvalidEnumArgumentException($"Invalid character state value: {state}.")
     };
 
@@ -33,5 +34,14 @@ public class CharacterStateMachine : StateMachine<Character, CharacterState> {
         Vector2 dir when dir == Vector2.left => FacingDirection.Left,
         Vector2 dir when dir == Vector2.right => FacingDirection.Right,
         _ => CurrentFacingDirection
+    };
+
+    // Convert the facing direction value to the vector direction.
+    public Vector2 ConvertFacingDirectionToVector(FacingDirection direction) => direction switch {
+        FacingDirection.Up => Vector2.up,
+        FacingDirection.Down => Vector2.down,
+        FacingDirection.Left => Vector2.left,
+        FacingDirection.Right => Vector2.right,
+        _ => throw new InvalidEnumArgumentException($"Invalid facing direction value: {direction}.")
     };
 }

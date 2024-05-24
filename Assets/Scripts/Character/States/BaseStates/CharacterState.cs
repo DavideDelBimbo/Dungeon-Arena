@@ -15,6 +15,9 @@ public abstract class CharacterState : BaseState<Character> {
 
 
     public override void OnEnter() {
+        // Update the facing direction based on the current movement direction.
+        _context.StateMachine.CurrentFacingDirection = _context.StateMachine.ConvertVectorToFacingDirection(_context.Movement.CurrentDirection);
+
         // Play the animation based on the current facing direction.
         StateAnimation.Play(_context.StateMachine.CurrentFacingDirection);
     }

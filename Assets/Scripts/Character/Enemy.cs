@@ -6,16 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(PatrolState))]
 [RequireComponent(typeof(ChaseState))]
 [RequireComponent(typeof(VulnerableState))]
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour , IAgent, IDamageble, IKnockBack {
     public enum State { Wait, Patrol, Chase, Vulnerable }
 
 
     [Header("Enemy Settings")]
     [SerializeField] private Player _player;
+    [field: SerializeField] public int Health { get; set; } = 3;
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Wait;
-
 
     public Character Character { get; private set; }
     public Movement Movement { get; private set; }
@@ -28,8 +28,6 @@ public class Enemy : MonoBehaviour {
     public PatrolState PatrolState { get; private set; }
     public ChaseState ChaseState { get; private set; }
     public VulnerableState VulnerableState { get; private set; }
-
-
 
     private void Awake() {
         Character = GetComponentInChildren<Character>();
@@ -53,5 +51,27 @@ public class Enemy : MonoBehaviour {
 
     private void Update() {
         StateMachine.Update();
+    }
+
+
+    public void TakeDamage(int damage) {
+        // Flash the character when taking damage.
+        StartCoroutine(Character.Flash());
+
+        // Reduce the health of the character.
+        Health -= damage;
+
+        if (Health <= 0) {
+            Die();
+        }
+    }
+
+    public void KnockBack(Vector2 direction, float power, float duration = 0.1f) {
+        // Apply knockback force to the character.
+        StartCoroutine(Movement.KnockBack(direction, power, duration));
+    }
+
+    public void Die() {
+        Character.StateMachine.TransitionToState(Character.DeadState);
     }
 }

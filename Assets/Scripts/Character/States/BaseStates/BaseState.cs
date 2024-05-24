@@ -8,9 +8,9 @@ public abstract class BaseState<T> : MonoBehaviour, IState where T : MonoBehavio
         _context = GetComponent<T>();
     }
 
-    public virtual void OnEnter() { }
+    public abstract void OnEnter();
 
-    public virtual void OnExit() { }
+    public abstract void OnExit();
 
-    public virtual void OnUpdate() { }
+    public abstract void OnUpdate();
 }

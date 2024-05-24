@@ -10,7 +10,7 @@ public class PatrolState : EnemyState {
 
     private PatrolMovementStrategy _movementStrategy;
     
-    public override void OnEnter() {
+    /*public override void OnEnter() {
         base.OnEnter();
 
         // Set the target.
@@ -49,5 +49,5 @@ public class PatrolState : EnemyState {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_waypoint.position, _patrolRadius);
         }
-    }
+    }*/
 }

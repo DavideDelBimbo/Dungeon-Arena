@@ -1,5 +1,5 @@
 public class ChaseState : EnemyState {
-    public override void OnEnter() {
+    /*public override void OnEnter() {
         base.OnEnter();
 
         // Set the target.
@@ -13,5 +13,5 @@ public class ChaseState : EnemyState {
         if (!InputHandler.IsPlayerDetected) {
             _context.StateMachine.TransitionToState(_context.WaitState);
         }
-    }
+    }*/
 }

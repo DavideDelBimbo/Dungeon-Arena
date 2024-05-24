@@ -13,6 +13,6 @@ public class KeyboardInputHandler : MonoBehaviour, IInputHandler {
     }
 
     public bool GetFire() {
-        return Input.GetButton("Fire1");
+        return Input.GetButtonDown("Fire1");
     }
 }
