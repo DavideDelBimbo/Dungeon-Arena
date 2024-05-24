@@ -390,6 +390,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesEffectColor.b
+      value: 0.2392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesEffectColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesEffectColor.r
+      value: 0.53333336
+      objectReference: {fileID: 0}
     - target: {fileID: 4330161255179282822, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _startAttackFrame
       value: 9

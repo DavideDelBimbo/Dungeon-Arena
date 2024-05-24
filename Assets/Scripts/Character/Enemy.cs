@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PatrolState))]
 [RequireComponent(typeof(ChaseState))]
 [RequireComponent(typeof(VulnerableState))]
-public class Enemy : MonoBehaviour , IAgent, IDamageble, IKnockBack {
+public class Enemy : MonoBehaviour , IAgent, IDamageble {
     public enum State { Wait, Patrol, Chase, Vulnerable }
 
 
@@ -62,7 +62,8 @@ public class Enemy : MonoBehaviour , IAgent, IDamageble, IKnockBack {
         Health -= damage;
 
         if (Health <= 0) {
-            Die();
+            // Transition to the dead state.
+            Character.StateMachine.TransitionToState(Character.DeadState);
         }
     }
 
@@ -72,6 +73,6 @@ public class Enemy : MonoBehaviour , IAgent, IDamageble, IKnockBack {
     }
 
     public void Die() {
-        Character.StateMachine.TransitionToState(Character.DeadState);
+        Destroy(gameObject);
     }
 }

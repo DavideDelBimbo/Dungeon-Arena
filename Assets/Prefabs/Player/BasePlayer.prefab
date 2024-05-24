@@ -176,7 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateAnimation: {fileID: 6960706432231215523}
-  _deadParticlesEffect: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
+  _destroyParticlesEffect: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
+  _destroyParticlesEffectColor: {r: 0.97647065, g: 0.8352942, b: 0.7294118, a: 1}
 --- !u!1 &2753681268132221409
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d47fac20662ce41acc492edc335b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Health>k__BackingField: 3
 --- !u!1 &8696174734163809491
 GameObject:
   m_ObjectHideFlags: 0

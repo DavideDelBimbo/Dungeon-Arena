@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(IInputHandler))]
-public class Player : MonoBehaviour, IAgent, IDamageble, IKnockBack {
+public class Player : MonoBehaviour, IAgent, IDamageble {
     [field: SerializeField, Header("Player Settings")] public int Health { get; set; } = 3;
 
 
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour, IAgent, IDamageble, IKnockBack {
 
     public void KnockBack(Vector2 direction, float power, float duration = 0.1f) {
         // Apply knockback force to the character.
-        StartCoroutine(Movement.KnockBack(direction, power, duration));
+        //StartCoroutine(Movement.KnockBack(direction, power, duration));
     }
 
     public void Die() {

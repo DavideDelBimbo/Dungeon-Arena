@@ -786,7 +786,7 @@ GameObject:
   - component: {fileID: 1227648452}
   - component: {fileID: 1227648453}
   m_Layer: 0
-  m_Name: Character Selection UI
+  m_Name: Character Selection Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: 1653963294}
   - component: {fileID: 1653963295}
   m_Layer: 0
-  m_Name: Character Selection Manager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -925,12 +925,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1653963292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d6e8d59699e9e140abfb5da5b1e625f, type: 3}
+  m_Script: {fileID: 11500000, guid: b36c812d3ab25f14089ca18a94aabd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterList:
-  - {fileID: 2017110469049209094, guid: 51bd0fe542532174c9090b2f81d8defe, type: 3}
-  - {fileID: 6623099327416667151, guid: 5767ed1e4f947c349a9747dba8df3f3f, type: 3}
+  _playerCharacterList:
+  - {fileID: 4296206580594695752, guid: 51bd0fe542532174c9090b2f81d8defe, type: 3}
+  - {fileID: 8901646039029646145, guid: 5767ed1e4f947c349a9747dba8df3f3f, type: 3}
+  _score: 0
+  _gameOverScreen: {fileID: 0}
 --- !u!1 &1755326379
 GameObject:
   m_ObjectHideFlags: 0

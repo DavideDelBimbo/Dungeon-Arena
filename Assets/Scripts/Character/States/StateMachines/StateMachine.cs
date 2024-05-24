@@ -21,7 +21,7 @@ public abstract class StateMachine<T, S> where T : MonoBehaviour where S : BaseS
         // Exit the current state and enter the new state.
         CurrentState?.OnExit();
         CurrentState = newState;
-        CurrentState.OnEnter();
+        CurrentState?.OnEnter();
     }
 }
 

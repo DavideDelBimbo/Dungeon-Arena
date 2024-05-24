@@ -22,13 +22,18 @@ public class AttackState : CharacterState {
 
         // Attack when the attack frame is reached.
         if (StateAnimation.AnimatedSprite.FrameIndex == _startAttackFrame && !_hasAttacked) {
+            // Get the direction of the attack.
             Vector2 direction = _context.StateMachine.ConvertFacingDirectionToVector(_context.StateMachine.CurrentFacingDirection);
+
+            // Attack with the weapon.
             _context.Weapon.Attack(_context.StateMachine.CurrentFacingDirection, direction);
             _hasAttacked = true;
         }
 
         if (StateAnimation.AnimatedSprite.FrameIndex == (_startAttackFrame + _attackDurationFrames) && !_hasPostAttacked) {
-            _context.Weapon.PostAttack();
+            if (_context.Weapon is MeleeWeapon meleeWeapon) {
+                meleeWeapon.PostAttack(_context.StateMachine.CurrentFacingDirection);
+            }
             _hasPostAttacked = true;
         }
 

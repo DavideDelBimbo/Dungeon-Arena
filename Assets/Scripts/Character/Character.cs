@@ -57,6 +57,8 @@ public class Character : MonoBehaviour {
         StateMachine.Update();
     }
 
+
+    // Flash the character sprite.
     public IEnumerator Flash() {
         // Flash the character sprite.
         SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();

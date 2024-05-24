@@ -1,13 +1,14 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class WeaponHitBox : MonoBehaviour {
     private Collider2D _collider;
+    private IWeapon _weapon;
 
 
     void Awake() {
         _collider = GetComponent<Collider2D>();
+        _weapon = GetComponentInParent<IWeapon>();
     }
 
     void Start() {
@@ -23,7 +24,6 @@ public class WeaponHitBox : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        // Deal damage to the Damageable component.
-        GetComponentInParent<IWeapon>().DealDamage(other);
+        _weapon?.DealDamage(other);
     }
 }
