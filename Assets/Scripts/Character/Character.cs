@@ -75,4 +75,16 @@ public class Character : MonoBehaviour {
         }
         yield break;
     }
+
+    // Apply power up effect to the character.
+    /*public IEnumerator PowerUp(float multiplier, float duration) {
+        // Apply power up effect to the character.
+        Movement.Speed *= multiplier;
+
+        // Wait for the duration of the power up.
+        yield return new WaitForSeconds(duration);
+
+        // Reset the speed of the character.
+        Movement.Speed /= multiplier;
+    }*/
 }

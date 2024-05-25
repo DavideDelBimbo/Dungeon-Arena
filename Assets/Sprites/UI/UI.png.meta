@@ -176,10 +176,10 @@ TextureImporter:
       name: Power_Bar_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 80
-        width: 64
-        height: 16
+        x: 8
+        y: 87
+        width: 42
+        height: 3
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: Power_Bar_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 80
-        width: 64
-        height: 16
+        x: 72
+        y: 87
+        width: 42
+        height: 3
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: Power_Bar_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 80
-        width: 64
-        height: 16
+        x: 135
+        y: 85
+        width: 45
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -349,7 +349,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

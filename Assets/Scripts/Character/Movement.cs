@@ -15,6 +15,11 @@ public class Movement : MonoBehaviour {
     private bool isKnockedBack = false;
 
 
+    public float Speed {
+        get => _speed;
+        set => _speed = value;
+    }
+
     public Vector2 CurrentDirection { get; set; }
     public Rigidbody2D Body { get; private set; }
 

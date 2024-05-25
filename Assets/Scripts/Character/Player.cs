@@ -1,8 +1,12 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(IInputHandler))]
-public class Player : MonoBehaviour, IAgent, IDamageable {
+public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpable {
+    private Coroutine _powerUpCoroutine;
+
     public int Health { get; set; }
 
     public Character Character { get; private set;}
@@ -19,6 +23,15 @@ public class Player : MonoBehaviour, IAgent, IDamageable {
         Character.Agent = this;
         Character.Movement = Movement;
         Character.InputHandler = InputHandler;
+    }
+
+
+    public void Die() {
+        // Destroy the player game object.
+        Destroy(gameObject);
+
+        // Show the game over screen.
+        Invoke(nameof(GameManager.Instance.EndGame), 1f);
     }
 
     public void TakeDamage(int damage) {
@@ -39,11 +52,15 @@ public class Player : MonoBehaviour, IAgent, IDamageable {
         StartCoroutine(Movement.KnockBack(direction, power, duration));
     }
 
-    public void Die() {
-        // Destroy the player game object.
-        Destroy(gameObject);
+    public void Heal(int healthAmount) {
+        // Increase the health of the character.
+        Health = Math.Min(Health + healthAmount, GameManager.Instance.MaxHealth);
+    }
 
-        // Show the game over screen.
-        Invoke(nameof(GameManager.Instance.EndGame), 1f);
+    public void PowerUp(int multiplier, float duration) {
+        if (_powerUpCoroutine != null) {
+            StopCoroutine(_powerUpCoroutine);
+        }
+        _powerUpCoroutine = StartCoroutine(GameManager.Instance.UpdatePowerUpDuration(multiplier, duration));
     }
 }

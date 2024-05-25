@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeadState : CharacterState {
@@ -11,6 +12,12 @@ public class DeadState : CharacterState {
 
         // Set the dead animation.
         _context.Movement.CurrentDirection = Vector2.zero;
+
+        // Disable all the colliders.
+        Collider2D[] colliders = _context.GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D collider in colliders) {
+            collider.enabled = false;
+        }
     }
 
     public override void OnUpdate() {

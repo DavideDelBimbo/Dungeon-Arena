@@ -524,6 +524,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 3
+  _points: 100
+  _droppableItems:
+  - {fileID: 150804666891707021, guid: 830b8c60cf4050f449137674a4604184, type: 3}
+  - {fileID: 4659056129978409403, guid: 002d28356571b9043920bb9c7d62a989, type: 3}
   _initialState: 0
 --- !u!114 &6019356781086506733
 MonoBehaviour:

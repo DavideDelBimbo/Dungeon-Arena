@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
     [Header("Enemy Settings")]
     [SerializeField] private int _health = 3;
     [SerializeField] private int _points = 100;
+    [SerializeField] private DroppableItem[] _droppableItems;
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Wait;
@@ -79,6 +80,12 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
     }
 
     public void Die() {
+        // Choose a random item to drop and drop it if the random number is less than the drop chance.
+        DroppableItem item = _droppableItems[Random.Range(0, _droppableItems.Length)];
+        if (Random.value < item.DropChance) {
+            item.Drop(transform.position);
+        }
+
         Destroy(gameObject);
     }
 }

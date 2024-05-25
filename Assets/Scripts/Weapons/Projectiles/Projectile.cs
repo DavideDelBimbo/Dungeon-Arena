@@ -46,6 +46,11 @@ public abstract class Projectile : MonoBehaviour {
             return;
         }
 
+        // Ignore collision with dropable items.
+        if (other.GetComponent<IDroppable>() != null) {
+            return;
+        }
+
         // Check if the target collider is a hit box.
         HitBox hitBox = other.GetComponent<HitBox>();
 
@@ -63,7 +68,7 @@ public abstract class Projectile : MonoBehaviour {
     }
 
 
-    protected void OnDestroy() {
+    private void OnDestroy() {
         if (_hitEffect != null) {
             // Instantiate the hit effect (without changing the z-index).
             Vector3 hitEffectPosition = new(transform.position.x, transform.position.y, _hitEffect.transform.localPosition.z);

@@ -5,17 +5,22 @@ using UnityEngine.UI;
 public class GameMenu : MonoBehaviour {
     [Header("UI Settings")]
     [SerializeField] private Slider _healthSlider;
+    [SerializeField] private Slider _powerUpSlider;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private Transform _settingsMenu;
     [SerializeField] private Transform _gameOverMenu;
 
     private bool _isSettingsMenuOpen;
+    private bool _isStartPowerUpTimer;
 
 
     private void Start() {
         // Set the health slider values.
         _healthSlider.maxValue = GameManager.Instance.MaxHealth;
         _healthSlider.value = GameManager.Instance.Player.Health;
+
+        // Set the power up slider values.
+        _powerUpSlider.value = 0;
 
         // Set the score text.
         _scoreText.text = GameManager.Instance.Score.ToString();
@@ -31,6 +36,10 @@ public class GameMenu : MonoBehaviour {
     private void Update() {
         // Update the health slider value.
         _healthSlider.value = GameManager.Instance.Player.Health;
+
+        // Update the power up slider value.
+         _powerUpSlider.maxValue = GameManager.Instance.PowerUpDuration;
+        _powerUpSlider.value = GameManager.Instance.PowerUpTimer;
 
         // Update the score text.
         _scoreText.text = GameManager.Instance.Score.ToString();
