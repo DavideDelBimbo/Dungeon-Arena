@@ -323,7 +323,7 @@ TextureImporter:
       name: Walk_Up_3
       rect:
         serializedVersion: 2
-        x: 130
+        x: 128
         y: 1024
         width: 64
         height: 64

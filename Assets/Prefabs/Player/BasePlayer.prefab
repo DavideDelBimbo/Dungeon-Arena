@@ -718,7 +718,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 01c88a7c6e0cd2746a0ba15c1627492a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -812,7 +812,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d47fac20662ce41acc492edc335b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 3
 --- !u!1 &8696174734163809491
 GameObject:
   m_ObjectHideFlags: 0
