@@ -32,16 +32,16 @@ public class DeadState : CharacterState {
 
     // Instantiate the dead particles effect and destroy the agent.
     private IEnumerator DeadCoroutine() {
-        // Instantiate the dead particles effect.
-        GameObject deadParticles = Instantiate(_destroyParticlesEffect, _context.transform.position, Quaternion.identity);
-        deadParticles.transform.SetParent(_context.transform);
+        // Instantiate the dead particles effect (without changing the z-index).
+        Vector3 deadParticlesPosition = new(_context.transform.position.x, _context.transform.position.y, _destroyParticlesEffect.transform.localPosition.z);
+        GameObject deadParticles = Instantiate(_destroyParticlesEffect, deadParticlesPosition, Quaternion.identity);
 
         // Wait for the dead particles effect to finish.
         ParticleSystem.MainModule parts = deadParticles.GetComponent<ParticleSystem>().main;
         parts.startColor = _destroyParticlesEffectColor;
         yield return new WaitForSeconds(parts.duration + parts.startLifetime.constant);
 
-        // Destroy the agent.
+        // Call the Die method of the agent.
         _context.GetComponentInParent<IAgent>().Die();
         yield break;
     }

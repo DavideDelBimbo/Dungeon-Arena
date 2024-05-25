@@ -4,7 +4,8 @@ using static Character;
 
 public class Sword : MeleeWeapon {
     [Header("Sword Settings")]    
-    [SerializedDictionary("FacingDirection", "Hit Box"), SerializeField] private SerializedDictionary<FacingDirection, WeaponHitBox> _swordHitBoxes;
+    [SerializedDictionary("FacingDirection", "Hit Box"), SerializeField]
+    private SerializedDictionary<FacingDirection, WeaponHitBox> _swordHitBoxes;
 
 
     // Enable the hit box of the sword based on the facing direction.

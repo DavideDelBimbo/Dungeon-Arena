@@ -6,22 +6,24 @@ using UnityEngine;
 [RequireComponent(typeof(PatrolState))]
 [RequireComponent(typeof(ChaseState))]
 [RequireComponent(typeof(VulnerableState))]
-public class Enemy : MonoBehaviour , IAgent, IDamageble {
+public class Enemy : MonoBehaviour , IAgent, IDamageable {
     public enum State { Wait, Patrol, Chase, Vulnerable }
 
 
     [Header("Enemy Settings")]
-    [SerializeField] private Player _player;
-    [field: SerializeField] public int Health { get; set; } = 3;
+    [SerializeField] private int _health = 3;
+    [SerializeField] private int _points = 100;
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Wait;
 
+
+    public int Health { get => _health; set => _health = value; }
+    public int Points { get => _points; private set => _points = value; }
+
     public Character Character { get; private set; }
     public Movement Movement { get; private set; }
     public IInputHandler InputHandler { get; private set; }
-
-    public Player Player { get => _player; private set => _player = value; }
 
     public EnemyStateMachine StateMachine { get; private set; }
     public WaitState WaitState { get; private set; }
@@ -35,6 +37,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageble {
         InputHandler = GetComponent<IInputHandler>();
 
         // Dependency injection.
+        Character.Agent = this;
         Character.Movement = Movement;
         Character.InputHandler = InputHandler;
 
@@ -64,6 +67,9 @@ public class Enemy : MonoBehaviour , IAgent, IDamageble {
         if (Health <= 0) {
             // Transition to the dead state.
             Character.StateMachine.TransitionToState(Character.DeadState);
+
+            // Add points to the score.
+            GameManager.Instance.AddScore(Points);
         }
     }
 

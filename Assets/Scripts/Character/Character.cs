@@ -24,6 +24,7 @@ public class Character : MonoBehaviour {
 
     public Sprite PreviewSprite => _previewSprite;
 
+    public IAgent Agent { get; set; }
     public Movement Movement { get; set; }
     public IInputHandler InputHandler { get; set; }
 
@@ -37,6 +38,7 @@ public class Character : MonoBehaviour {
 
 
     private void Awake() {
+        Agent ??= GetComponentInParent<IAgent>();
         Movement = (Movement != null) ? Movement : GetComponent<Movement>();
         InputHandler ??= GetComponent<IInputHandler>();
     

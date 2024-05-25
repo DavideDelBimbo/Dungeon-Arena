@@ -1,28 +1,36 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager> {
     [Header("Game Settings")]
-    [SerializeField] private Player[] _playerCharacterList;
-    [SerializeField] private int _score;
-    [SerializeField] private GameObject _gameOverScreen;
+    [SerializeField] private int _maxHealth = 3;
+    [SerializeField] private int _score = 0;
 
-    private int _selectedPlayerCharacterIndex = -1;
+    public Player _player;
+
+    public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
+    public int Score { get => _score; set => _score = value; }
+    public Player Player { get => _player; set => _player = value; }
+
+    public UnityEvent OnGameOver;
 
 
-    public Player[] CharacterList => _playerCharacterList;
-
-    public Player SelectedPlayerCharacter {
-        get => _selectedPlayerCharacterIndex != -1 ? _playerCharacterList[_selectedPlayerCharacterIndex] : null;
-        set => _selectedPlayerCharacterIndex = value != null ? System.Array.IndexOf(_playerCharacterList, value) : -1;
+    private void Start() {
+        NewGame();
     }
 
-    public void GameOver() {
-        // Show the game over screen.
-        Invoke(nameof(GameOverScreen), 2f);
+
+    public void NewGame() {
+        // Reset the score.
+        Score = 0;
     }
 
-    private void GameOverScreen() {
-        //_gameOverScreen.SetActive(true);
-        Debug.Log("Game Over!");
+    public void EndGame() {
+        // Invoke the game over event.
+        OnGameOver?.Invoke();
+    }
+
+    public void AddScore(int score) {
+        Score += score;
     }
 }

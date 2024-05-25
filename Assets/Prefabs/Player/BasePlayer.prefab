@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1508915906625840700}
   - component: {fileID: 4438438851584907281}
+  - component: {fileID: 7859968840355340191}
   m_Layer: 7
   m_Name: Character Hit Box
   m_TagString: Untagged
@@ -67,6 +68,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.1}
   m_Size: {x: 0.46, y: 0.73}
   m_Direction: 0
+--- !u!114 &7859968840355340191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214884746132455804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fba922a95db03c43b7544ff4fad81dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &985170152459861589
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d47fac20662ce41acc492edc335b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Health>k__BackingField: 3
+  _health: 3
 --- !u!1 &8696174734163809491
 GameObject:
   m_ObjectHideFlags: 0

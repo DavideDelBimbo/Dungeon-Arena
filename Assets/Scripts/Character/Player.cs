@@ -2,9 +2,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(IInputHandler))]
-public class Player : MonoBehaviour, IAgent, IDamageble {
-    [field: SerializeField, Header("Player Settings")] public int Health { get; set; } = 3;
-
+public class Player : MonoBehaviour, IAgent, IDamageable {
+    public int Health { get; set; }
 
     public Character Character { get; private set;}
     public Movement Movement { get; private set; }
@@ -17,10 +16,10 @@ public class Player : MonoBehaviour, IAgent, IDamageble {
         InputHandler = GetComponent<IInputHandler>();
 
         // Dependency injection for the Character.
+        Character.Agent = this;
         Character.Movement = Movement;
         Character.InputHandler = InputHandler;
     }
-
 
     public void TakeDamage(int damage) {
         // Flash the character when taking damage.
@@ -30,19 +29,21 @@ public class Player : MonoBehaviour, IAgent, IDamageble {
         Health -= damage;
 
         if (Health <= 0) {
-            Die();
+            // Transition to the dead state.
+            Character.StateMachine.TransitionToState(Character.DeadState);
         }
     }
 
     public void KnockBack(Vector2 direction, float power, float duration = 0.1f) {
         // Apply knockback force to the character.
-        //StartCoroutine(Movement.KnockBack(direction, power, duration));
+        StartCoroutine(Movement.KnockBack(direction, power, duration));
     }
 
     public void Die() {
-        Character.StateMachine.TransitionToState(Character.DeadState);
+        // Destroy the player game object.
+        Destroy(gameObject);
 
         // Show the game over screen.
-        GameManager.Instance.GameOver();
+        Invoke(nameof(GameManager.Instance.EndGame), 1f);
     }
 }

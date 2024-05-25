@@ -236,6 +236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knight
       objectReference: {fileID: 0}
+    - target: {fileID: 6197475634597744819, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6537371875949612364, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _frames._serializedList.Array.data[0].Value.Array.size
       value: 8

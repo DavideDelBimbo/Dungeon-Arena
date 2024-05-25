@@ -31,9 +31,8 @@ public class AttackState : CharacterState {
         }
 
         if (StateAnimation.AnimatedSprite.FrameIndex == (_startAttackFrame + _attackDurationFrames) && !_hasPostAttacked) {
-            if (_context.Weapon is MeleeWeapon meleeWeapon) {
-                meleeWeapon.PostAttack(_context.StateMachine.CurrentFacingDirection);
-            }
+            // Post attack with the weapon.
+            _context.Weapon.PostAttack(_context.StateMachine.CurrentFacingDirection);
             _hasPostAttacked = true;
         }
 

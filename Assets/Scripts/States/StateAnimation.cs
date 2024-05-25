@@ -5,7 +5,8 @@ using static Character;
 [RequireComponent(typeof(AnimatedSprite))]
 public class StateAnimation : MonoBehaviour {
     [Header("Animation Settings")]
-    [SerializedDictionary("FacingDirection", "Sprite"), SerializeField] private SerializedDictionary<FacingDirection, Sprite[]> _frames;
+    [SerializedDictionary("FacingDirection", "Sprite"), SerializeField]
+    private SerializedDictionary<FacingDirection, Sprite[]> _frames;
 
     private AnimatedSprite _animatedSprite;
 

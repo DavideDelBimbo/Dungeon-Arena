@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class KeyboardInputHandler : MonoBehaviour, IInputHandler {
     public Vector2 GetMovement() {
@@ -13,6 +14,12 @@ public class KeyboardInputHandler : MonoBehaviour, IInputHandler {
     }
 
     public bool GetFire() {
+        // Check if the mouse is over a UI element.
+        if (EventSystem.current.IsPointerOverGameObject()) {
+            return false;
+        }
+
+        // Check if the player pressed the fire button.
         return Input.GetButtonDown("Fire1");
     }
 }

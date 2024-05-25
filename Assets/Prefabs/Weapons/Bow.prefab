@@ -44,18 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3441d86422b139a469628cb0edda882f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 1
-  _knockBackPower: 2
-  _knockBackDuration: 0.1
-  _arrowPrefab: {fileID: 197018967691020862, guid: 15633f66e794f5241869de100cdecbb2, type: 3}
-  _arrowSprites:
-    _serializedList:
-    - Key: 0
-      Value: {fileID: 457439295, guid: 191e1b81ae33fc143a6272a6f5b30c39, type: 3}
-    - Key: 1
-      Value: {fileID: 1560473482, guid: 191e1b81ae33fc143a6272a6f5b30c39, type: 3}
-    - Key: 2
-      Value: {fileID: 241269520, guid: 191e1b81ae33fc143a6272a6f5b30c39, type: 3}
-    - Key: 3
-      Value: {fileID: 1764882093, guid: 191e1b81ae33fc143a6272a6f5b30c39, type: 3}
+  _arrowPrefab: {fileID: -2027351481554141530, guid: 15633f66e794f5241869de100cdecbb2, type: 3}
   _arrowSpawnPoint: {fileID: 4447296280037473710}
