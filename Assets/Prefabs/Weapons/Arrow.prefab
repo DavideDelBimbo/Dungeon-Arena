@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4927420384088140065}
   - component: {fileID: 408397689497188383}
   - component: {fileID: -2027351481554141530}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,7 +115,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &-2027351481554141530
 MonoBehaviour:
@@ -133,7 +133,7 @@ MonoBehaviour:
   _damage: 1
   _knockBackPower: 2
   _knockBackDuration: 0.1
-  _lifeTime: 2
+  _lifeTime: 0.5
   _hitEffect: {fileID: 3687111875718497032, guid: 0de0d21640388b1439dc65833be04328, type: 3}
   _arrowSprites:
     _serializedList:
@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2323278472470770291}
   - component: {fileID: 5800506308502918532}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hit Box Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8707720844385605898}
   - component: {fileID: 1051292707075061584}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hit Box Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 647062704456129778}
   - component: {fileID: 5680396965495571239}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hit Box Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1800802964454455934}
   - component: {fileID: 4887785496880490616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hit Box Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}

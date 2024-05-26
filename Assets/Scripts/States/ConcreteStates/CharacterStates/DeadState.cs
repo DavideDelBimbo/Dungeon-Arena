@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeadState : CharacterState {
@@ -48,8 +47,10 @@ public class DeadState : CharacterState {
         parts.startColor = _destroyParticlesEffectColor;
         yield return new WaitForSeconds(parts.duration + parts.startLifetime.constant);
 
-        // Call the Die method of the agent.
-        _context.GetComponentInParent<IAgent>().Die();
+        // Call the OnDeath event on the agent.
+        IAgent agent = _context.GetComponentInParent<IAgent>();
+        agent.OnDeath?.Invoke(agent);
+        agent.Die();
         yield break;
     }
 }

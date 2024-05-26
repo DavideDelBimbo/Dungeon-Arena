@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
@@ -8,6 +7,7 @@ public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpabl
     private Coroutine _powerUpCoroutine;
 
     public int Health { get; set; }
+    public Action<IAgent> OnDeath { get; set; }
 
     public Character Character { get; private set;}
     public Movement Movement { get; private set; }
@@ -26,17 +26,9 @@ public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpabl
     }
 
 
-    public void Die() {
-        // Destroy the player game object.
-        Destroy(gameObject);
-
-        // Show the game over screen.
-        Invoke(nameof(GameManager.Instance.EndGame), 1f);
-    }
-
     public void TakeDamage(int damage) {
         // Flash the character when taking damage.
-        StartCoroutine(Character.Flash());
+        StartCoroutine(Character.Flash(Character.DeadFlashColor, Character.FlashDuration));
 
         // Reduce the health of the character.
         Health -= damage;
@@ -62,5 +54,13 @@ public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpabl
             StopCoroutine(_powerUpCoroutine);
         }
         _powerUpCoroutine = StartCoroutine(GameManager.Instance.UpdatePowerUpDuration(multiplier, duration));
+    }
+
+    public void Die() {
+        // Destroy the player.
+        Destroy(gameObject);
+
+        // Show the game over screen.
+        //Invoke(nameof(GameManager.Instance.EndGame), 1f);
     }
 }

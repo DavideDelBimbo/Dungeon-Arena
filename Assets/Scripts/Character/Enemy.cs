@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
 
     public int Health { get => _health; set => _health = value; }
     public int Points { get => _points; private set => _points = value; }
+    public Action<IAgent> OnDeath { get; set; }
 
     public Character Character { get; private set; }
     public Movement Movement { get; private set; }
@@ -60,7 +62,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
 
     public void TakeDamage(int damage) {
         // Flash the character when taking damage.
-        StartCoroutine(Character.Flash());
+        StartCoroutine(Character.Flash(Character.DeadFlashColor, Character.FlashDuration));
 
         // Reduce the health of the character.
         Health -= damage;
@@ -68,9 +70,6 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
         if (Health <= 0) {
             // Transition to the dead state.
             Character.StateMachine.TransitionToState(Character.DeadState);
-
-            // Add points to the score.
-            GameManager.Instance.AddScore(Points);
         }
     }
 
@@ -80,12 +79,17 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
     }
 
     public void Die() {
+        // Add points to the score.
+        GameManager.Instance.AddScore(Points);
+
         // Choose a random item to drop and drop it if the random number is less than the drop chance.
-        DroppableItem item = _droppableItems[Random.Range(0, _droppableItems.Length)];
-        if (Random.value < item.DropChance) {
-            item.Drop(transform.position);
+        DroppableItem item = _droppableItems[UnityEngine.Random.Range(0, _droppableItems.Length)];
+        if (UnityEngine.Random.value < item.DropChance) {
+            // Drop the item at the specified position (without changing the z-index).
+            DroppableItem.DropItem(item, transform.position);
         }
 
+        // Destroy the enemy.
         Destroy(gameObject);
     }
 }

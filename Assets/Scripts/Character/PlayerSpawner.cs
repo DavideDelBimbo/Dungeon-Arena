@@ -3,13 +3,11 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour {
     private void Start() {
         // Spawn the selected character (without changing the z-index)
-        Vector3 spawnPosition = new(transform.position.x, transform.position.y, SelectCharacterManager.Instance.SelectedPlayerCharacter.transform.localPosition.z);
-        Player spawnedPlayer = Instantiate(SelectCharacterManager.Instance.SelectedPlayerCharacter, spawnPosition, Quaternion.identity);
-        GameManager.Instance.Player = spawnedPlayer;
-        Debug.Log(spawnedPlayer.name + " spawned.");
+        GameManager.Instance.Player = Instantiate(SelectCharacterManager.Instance.SelectedPlayerCharacter, transform.position, Quaternion.identity);
+        Vector3 spawnPosition = new(transform.position.x, transform.position.y, GameManager.Instance.Player.transform.localPosition.z);
+        GameManager.Instance.Player.transform.position = spawnPosition;
 
-        // Set the player health to the max health.
-        spawnedPlayer.Health = GameManager.Instance.MaxHealth;
+        // Set the player's health to the maximum health.
+        GameManager.Instance.Player.Health = GameManager.Instance.MaxHealth;
     }
-
 }

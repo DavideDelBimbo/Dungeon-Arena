@@ -1,5 +1,5 @@
 
-using System.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,18 +8,20 @@ public class CharacterSelectionMenu : MonoBehaviour {
     [SerializeField] private GameObject _characterButtonPrefab;
     [SerializeField] private Transform _charactersPanel;
     [SerializeField] private Button _startGameButton;
+    [SerializeField] private Transform _loadingScreen;
 
     private void Start() {
-        // Reset the game.
-        GameManager.Instance.NewGame();
-
         // Disable start button at the beginning.
         _startGameButton.interactable = false;
+
+        // Hide the loading screen.
+        _loadingScreen.gameObject.SetActive(false);
         
         foreach(Player playerCharacter in SelectCharacterManager.Instance.PlayerCharactersList) {
             // Create a character button in panel and set the character preview sprite.
             GameObject characterButton = Instantiate(_characterButtonPrefab, _charactersPanel.transform);
-            characterButton.GetComponentInChildren<SpriteRenderer>().sprite = playerCharacter.GetComponentInChildren<Character>().PreviewSprite;
+            Image[] images = characterButton.GetComponentsInChildren<Image>();
+            images[1].sprite = playerCharacter.GetComponentInChildren<Character>().PreviewSprite;
 
             Button button = characterButton.GetComponent<Button>();
             button.onClick.AddListener(() => {
@@ -39,5 +41,30 @@ public class CharacterSelectionMenu : MonoBehaviour {
                 if (SelectCharacterManager.Instance.SelectedPlayerCharacter != null) _startGameButton.interactable = true;
             });
         }
+    }
+
+
+    public void StartGame() {
+        // Load the game scene.
+        SceneManager.Instance.LoadNextScene();
+
+        _loadingScreen.gameObject.SetActive(true);
+        StartCoroutine(LoadingBar());
+
+        // Start a new game.
+        GameManager.Instance.NewGame();
+    }
+
+
+    private IEnumerator LoadingBar() {
+        Slider loadingBar = _loadingScreen.GetComponentInChildren<Slider>();
+
+        // Update the loading bar value until the scene is loaded.
+        while (!SceneManager.Instance.IsLoaded) {
+            loadingBar.value = SceneManager.Instance.Progress;
+            yield return null;
+        }
+
+        yield break;
     }
 }

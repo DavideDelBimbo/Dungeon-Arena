@@ -13,7 +13,7 @@ public class Character : MonoBehaviour {
 
     [Header("Character Settings")]
     [SerializeField] private Sprite _previewSprite;
-    [SerializeField] private Color _flashColor = Color.red;
+    [SerializeField] private Color _deadFlashColor = Color.red;
     [SerializeField] private float _flashDuration = 0.1f;
 
 
@@ -21,6 +21,9 @@ public class Character : MonoBehaviour {
     [SerializeField] private State _initialState = State.Idle;
     [SerializeField] private FacingDirection _initialFacingDirection = FacingDirection.Down;
 
+
+    public Color DeadFlashColor => _deadFlashColor;
+    public float FlashDuration => _flashDuration;
 
     public Sprite PreviewSprite => _previewSprite;
 
@@ -61,30 +64,22 @@ public class Character : MonoBehaviour {
 
 
     // Flash the character sprite.
-    public IEnumerator Flash() {
+    public IEnumerator Flash(Color color, float duration = 0.1f, int times = 1) {
         // Flash the character sprite.
-        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-            spriteRenderer.color = _flashColor;
-        }
-        yield return new WaitForSeconds(_flashDuration);
+        for (int i = 0; i < times; i++) {
+            SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
+                spriteRenderer.color = color;
+            }
+            yield return new WaitForSeconds(duration);
 
-        // Reset the character sprite color.
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-            spriteRenderer.color = Color.white;
+            // Reset the character sprite color.
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
+                spriteRenderer.color = Color.white;
+            }
+            yield return new WaitForSeconds(duration);
         }
+
         yield break;
     }
-
-    // Apply power up effect to the character.
-    /*public IEnumerator PowerUp(float multiplier, float duration) {
-        // Apply power up effect to the character.
-        Movement.Speed *= multiplier;
-
-        // Wait for the duration of the power up.
-        yield return new WaitForSeconds(duration);
-
-        // Reset the speed of the character.
-        Movement.Speed /= multiplier;
-    }*/
 }

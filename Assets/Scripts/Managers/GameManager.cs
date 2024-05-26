@@ -20,12 +20,15 @@ public class GameManager : Singleton<GameManager> {
     public UnityEvent OnGameOver;
 
 
-    private void Start() {
-        NewGame();
-    }
-
-
     public void NewGame() {
+        if (SceneManager.Instance.IsLoaded && SelectCharacterManager.Instance.SelectedPlayerCharacter != null) {
+            // Instantiate the selected player .
+            Player = Instantiate(SelectCharacterManager.Instance.SelectedPlayerCharacter);
+            
+            // Set the player's health to the maximum health.
+            Player.Health = MaxHealth;
+        }
+
         // Reset the score.
         Score = 0;
     }

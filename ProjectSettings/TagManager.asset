@@ -14,9 +14,9 @@ TagManager:
   - Obstacles
   - Players
   - Enemies
-  - Nodes
-  - Droppable Items
-  - 
+  - Projectiles
+  - Hit Boxes
+  - Portals
   - 
   - 
   - 

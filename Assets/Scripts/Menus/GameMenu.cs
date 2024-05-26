@@ -11,7 +11,6 @@ public class GameMenu : MonoBehaviour {
     [SerializeField] private Transform _gameOverMenu;
 
     private bool _isSettingsMenuOpen;
-    private bool _isStartPowerUpTimer;
 
 
     private void Start() {
@@ -30,7 +29,7 @@ public class GameMenu : MonoBehaviour {
         _gameOverMenu.gameObject.SetActive(false);
 
         // Subscribe to the game over event.
-        GameManager.Instance.OnGameOver.AddListener(ShowGameOverMenu);
+        //GameManager.Instance.OnGameOver.AddListener(ShowGameOverMenu);
     }
 
     private void Update() {
@@ -53,10 +52,10 @@ public class GameMenu : MonoBehaviour {
         }
     }
 
-    private void OnDestroy() {
+    /*private void OnDestroy() {
         // Unsubscribe from the game over event.
         GameManager.Instance.OnGameOver.RemoveListener(ShowGameOverMenu);
-    }
+    }*/
 
 
     public void PauseGame() {
@@ -85,11 +84,11 @@ public class GameMenu : MonoBehaviour {
         SelectCharacterManager.Instance.SelectedPlayerCharacter = null;
 
         // Load the main menu scene.
-        SceneManager.LoadScene(sceneName);
+        SceneManager.Instance.LoadScene(sceneName);
     }
 
 
-    private void ShowGameOverMenu() {
+   /*private void ShowGameOverMenu() {
         _gameOverMenu.gameObject.SetActive(true);
-    }
+    }*/
 }
