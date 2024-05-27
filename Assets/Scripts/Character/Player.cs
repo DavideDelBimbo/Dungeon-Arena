@@ -1,10 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(IInputHandler))]
-public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpable {
-    private Coroutine _powerUpCoroutine;
+public class Player : MonoBehaviour, IAgent, IDamageable {
+    [Header("Player Settings")]
+    [SerializeField] private Color _damageFlashColor = Color.red;
+    [SerializeField] private float _damageFlashDuration = 0.1f;
+
+
+    private Coroutine _activeScoreMultiplierCoroutine;
+
 
     public int Health { get; set; }
     public Action<IAgent> OnDeath { get; set; }
@@ -28,7 +35,7 @@ public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpabl
 
     public void TakeDamage(int damage) {
         // Flash the character when taking damage.
-        StartCoroutine(Character.Flash(Character.DeadFlashColor, Character.FlashDuration));
+        StartCoroutine(Character.Flash(_damageFlashColor, _damageFlashDuration));
 
         // Reduce the health of the character.
         Health -= damage;
@@ -44,23 +51,35 @@ public class Player : MonoBehaviour, IAgent, IDamageable, IHealable, IPowerUpabl
         StartCoroutine(Movement.KnockBack(direction, power, duration));
     }
 
-    public void Heal(int healthAmount) {
-        // Increase the health of the character.
-        Health = Math.Min(Health + healthAmount, GameManager.Instance.MaxHealth);
-    }
-
-    public void PowerUp(int multiplier, float duration) {
-        if (_powerUpCoroutine != null) {
-            StopCoroutine(_powerUpCoroutine);
-        }
-        _powerUpCoroutine = StartCoroutine(GameManager.Instance.UpdatePowerUpDuration(multiplier, duration));
-    }
-
     public void Die() {
         // Destroy the player.
         Destroy(gameObject);
 
         // Show the game over screen.
         //Invoke(nameof(GameManager.Instance.EndGame), 1f);
+    }
+
+
+    // Power-up the score multiplier.
+    public void PowerUpScore(int scoreMultiplier, float duration) {
+        // Stop the score multiplier coroutine if it is already running.
+        if (_activeScoreMultiplierCoroutine != null) {
+            StopCoroutine(_activeScoreMultiplierCoroutine);
+        }
+
+        // Start the new score multiplier coroutine.
+        _activeScoreMultiplierCoroutine = StartCoroutine(ScoreMultiplierCoroutine(scoreMultiplier, duration));
+    }
+
+    private IEnumerator ScoreMultiplierCoroutine(int scoreMultiplier, float duration) {
+        // Set the score multiplier.
+        GameManager.Instance.ScoreMultiplier = scoreMultiplier;
+
+        // Wait for the power-up duration.
+        yield return new WaitForSeconds(duration);
+
+        // Reset the score multiplier.
+        GameManager.Instance.ScoreMultiplier = 1;
+        yield break;
     }
 }

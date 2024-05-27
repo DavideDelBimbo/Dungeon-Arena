@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class DeadState : CharacterState {
     [Header("Dead Settings")]
-    [SerializeField] private GameObject _destroyParticlesEffect;
-    [SerializeField] private Color _destroyParticlesEffectColor = Color.white;
+    [SerializeField] private GameObject _destroyParticlesVFX;
+    [SerializeField] private Color _destroyParticlesVFXColor = Color.white;
 
     public override void OnEnter() {
         base.OnEnter();
@@ -31,20 +31,20 @@ public class DeadState : CharacterState {
     public override void OnExit() {
         base.OnExit();
 
-        // Instantiate the dead particles effect and destroy the agent.
+        // Instantiate the dead particles VFX and destroy the agent.
         StartCoroutine(DeadCoroutine());
     }
 
 
-    // Instantiate the dead particles effect and destroy the agent.
+    // Instantiate the dead particles VFX and destroy the agent.
     private IEnumerator DeadCoroutine() {
-        // Instantiate the dead particles effect (without changing the z-index).
-        Vector3 deadParticlesPosition = new(_context.transform.position.x, _context.transform.position.y, _destroyParticlesEffect.transform.localPosition.z);
-        GameObject deadParticles = Instantiate(_destroyParticlesEffect, deadParticlesPosition, Quaternion.identity);
+        // Instantiate the dead particles VFX (without changing the z-index).
+        Vector3 deadParticlesPosition = new(_context.transform.position.x, _context.transform.position.y, _destroyParticlesVFX.transform.localPosition.z);
+        GameObject deadParticles = Instantiate(_destroyParticlesVFX, deadParticlesPosition, Quaternion.identity);
 
-        // Wait for the dead particles effect to finish.
+        // Wait for the dead particles VFX to finish.
         ParticleSystem.MainModule parts = deadParticles.GetComponent<ParticleSystem>().main;
-        parts.startColor = _destroyParticlesEffectColor;
+        parts.startColor = _destroyParticlesVFXColor;
         yield return new WaitForSeconds(parts.duration + parts.startLifetime.constant);
 
         // Call the OnDeath event on the agent.

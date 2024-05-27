@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(IdleState))]
@@ -13,17 +14,11 @@ public class Character : MonoBehaviour {
 
     [Header("Character Settings")]
     [SerializeField] private Sprite _previewSprite;
-    [SerializeField] private Color _deadFlashColor = Color.red;
-    [SerializeField] private float _flashDuration = 0.1f;
-
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Idle;
     [SerializeField] private FacingDirection _initialFacingDirection = FacingDirection.Down;
 
-
-    public Color DeadFlashColor => _deadFlashColor;
-    public float FlashDuration => _flashDuration;
 
     public Sprite PreviewSprite => _previewSprite;
 
@@ -65,18 +60,37 @@ public class Character : MonoBehaviour {
 
     // Flash the character sprite.
     public IEnumerator Flash(Color color, float duration = 0.1f, int times = 1) {
-        // Flash the character sprite.
+        // Get all the sprite renderers of the character.
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
         for (int i = 0; i < times; i++) {
-            SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-                spriteRenderer.color = color;
-            }
+            // Flash the character sprite changing the color.
+            Array.ForEach(spriteRenderers, spriteRenderer => spriteRenderer.color = color);
             yield return new WaitForSeconds(duration);
 
             // Reset the character sprite color.
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-                spriteRenderer.color = Color.white;
-            }
+            Array.ForEach(spriteRenderers, spriteRenderer => spriteRenderer.color = Color.white);
+            yield return new WaitForSeconds(duration);
+        }
+
+        yield break;
+    }
+
+    public IEnumerator Flash(Material material, float duration = 0.1f, int times = 1) {
+        // Get all the sprite renderers of the character.
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        // Store the original materials of the character sprite.
+        Dictionary<SpriteRenderer, Material> originalMaterials = new();
+        Array.ForEach(spriteRenderers, spriteRenderer => originalMaterials[spriteRenderer] = spriteRenderer.material);
+
+        for (int i = 0; i < times; i++) {
+            // Flash the character sprite changing the material.
+            Array.ForEach(spriteRenderers, spriteRenderer => spriteRenderer.material = material);
+            yield return new WaitForSeconds(duration);
+
+            // Reset the character sprite material.
+            Array.ForEach(spriteRenderers, spriteRenderer => spriteRenderer.material = originalMaterials[spriteRenderer]);
             yield return new WaitForSeconds(duration);
         }
 

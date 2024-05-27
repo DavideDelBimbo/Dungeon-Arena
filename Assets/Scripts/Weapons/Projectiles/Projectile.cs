@@ -10,7 +10,7 @@ public abstract class Projectile : MonoBehaviour {
     [SerializeField] private int _knockBackPower = 5;
     [SerializeField] protected float _knockBackDuration = 0.1f;
     [SerializeField] private float _lifeTime = 2f;
-    [SerializeField] GameObject _hitEffect;
+    [SerializeField] GameObject _hitVFX;
 
     private Rigidbody2D _rigidbody;
     private Vector2 _knockBackDirection;
@@ -58,10 +58,10 @@ public abstract class Projectile : MonoBehaviour {
             damageable?.KnockBack(_knockBackDirection, _knockBackPower, _knockBackDuration);
         }
 
-        if (_hitEffect != null) {
-            // Instantiate the hit effect (without changing the z-index).
-            Vector3 hitEffectPosition = new(transform.position.x, transform.position.y, _hitEffect.transform.localPosition.z);
-            Instantiate(_hitEffect, hitEffectPosition, Quaternion.identity);
+        if (_hitVFX != null) {
+            // Instantiate the hit VFX (without changing the z-index).
+            Vector3 hitVFXPosition = new(transform.position.x, transform.position.y, _hitVFX.transform.localPosition.z);
+            Instantiate(_hitVFX, hitVFXPosition, Quaternion.identity);
         }
 
         // Destroy the projectile after hitting an object.

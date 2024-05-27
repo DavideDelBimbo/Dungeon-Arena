@@ -131,8 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previewSprite: {fileID: 1291244091, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
-  _deadFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  _flashDuration: 0.1
   _initialState: 0
   _initialFacingDirection: 1
 --- !u!114 &5959524129237287438
@@ -189,8 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateAnimation: {fileID: 6960706432231215523}
-  _destroyParticlesEffect: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
-  _destroyParticlesEffectColor: {r: 0.97647065, g: 0.8352942, b: 0.7294118, a: 1}
+  _destroyParticlesVFX: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
+  _destroyParticlesVFXColor: {r: 0.78039217, g: 0.6666667, b: 0.58431375, a: 1}
 --- !u!1 &2753681268132221409
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,6 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
+  _speedMultiplier: 1
   _initialDirection: 0
 --- !u!114 &5431388037241296693
 MonoBehaviour:
@@ -812,6 +811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d47fac20662ce41acc492edc335b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageFlashDuration: 0.1
 --- !u!1 &8696174734163809491
 GameObject:
   m_ObjectHideFlags: 0

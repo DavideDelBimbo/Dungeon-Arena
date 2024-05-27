@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 4005597229
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lights
+    uniqueID: 1812328483
     locked: 0

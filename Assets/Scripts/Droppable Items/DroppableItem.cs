@@ -1,28 +1,20 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimatedSprite))]
 [RequireComponent(typeof(Collider2D))]
-public abstract class DroppableItem : MonoBehaviour {
+public class DroppableItem : MonoBehaviour {
     [Header("Droppable Item Settings")]
+    [SerializeField] private ItemEffect[] _itemEffects;
     [SerializeField] private float _lifetime = 5f;
     [SerializeField, Range(0, 1)] private float _dropChance = 0.5f;
-    [SerializeField] private GameObject _itemEffect;
+    [SerializeField] private GameObject _destroyItemVFX;
+
 
     public float DropChance => _dropChance;
 
-    public static void DropItem(DroppableItem itemPrefab, Vector3 position) {
-        // Instantiate the item at the specified position (without changing the z-index).
-        Vector3 dropPosition = new(position.x, position.y, itemPrefab.transform.localPosition.z);
-        DroppableItem droppedItem = Instantiate(itemPrefab, dropPosition, Quaternion.identity);
 
-        // Drop the item.
-        droppedItem.Drop();
-    }
-
-    protected abstract void ApplyEffect(IAgent agent);
-
-
-    private void Drop() {
+    private void Start() {
         // Play the animation of the item.
         GetComponent<AnimatedSprite>().Play();
 
@@ -36,16 +28,19 @@ public abstract class DroppableItem : MonoBehaviour {
 
         // Check if Player picked up the item.
         if (hitBox != null && player != null) {
-            ApplyEffect(player);
+            // Apply the item effect to the player.
+            Array.ForEach(_itemEffects, effect => effect.ApplyEffect(player));
+
+            // Destroy the item.
             DestroyItem();
         }
     }
 
     private void DestroyItem() {
-        if (_itemEffect != null) {
-            // Instantiate the hit effect (without changing the z-index).
-            Vector3 itemEffectPosition = new(transform.position.x, transform.position.y, _itemEffect.transform.localPosition.z);
-            Instantiate(_itemEffect, itemEffectPosition, Quaternion.identity);
+        if (_destroyItemVFX != null) {
+            // Instantiate the hit VFX (without changing the z-index).
+            Vector3 destroyItemVFXPosition = new(transform.position.x, transform.position.y, _destroyItemVFX.transform.localPosition.z);
+            Instantiate(_destroyItemVFX, destroyItemVFXPosition, Quaternion.identity);
         }
 
         // Destroy the item.

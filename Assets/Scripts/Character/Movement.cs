@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
@@ -10,15 +9,15 @@ public class Movement : MonoBehaviour {
 
     [Header("Movement Settings")]
     [SerializeField] float _speed = 5.0f;
+    [SerializeField] float _speedMultiplier = 1f;
     [SerializeField] AllowedDirection _initialDirection = AllowedDirection.Stop;
 
     private bool isKnockedBack = false;
+    private Coroutine _activeSpeedMultiplierCoroutine;
 
 
-    public float Speed {
-        get => _speed;
-        set => _speed = value;
-    }
+    public float Speed { get => _speed; set => _speed = value; }
+    public float SpeedMultiplier { get => _speedMultiplier; set => _speedMultiplier = value; }
 
     public Vector2 CurrentDirection { get; set; }
     public Rigidbody2D Body { get; private set; }
@@ -43,7 +42,7 @@ public class Movement : MonoBehaviour {
     private void Move() {
         // Get the current position of the object and the translation vector.
         Vector2 startPosition = Body.position;
-        Vector2 translation = _speed * Time.fixedDeltaTime * CurrentDirection;
+        Vector2 translation = _speed * _speedMultiplier * Time.fixedDeltaTime * CurrentDirection;
 
         // Move the object to the new position.
         Body.MovePosition(startPosition + translation);
@@ -61,6 +60,8 @@ public class Movement : MonoBehaviour {
         };
     }
 
+
+    // Apply knockback force to the object.
     public IEnumerator KnockBack(Vector2 direction, float power, float duration) {
         // Apply knockback force to the character.
         isKnockedBack = true;
@@ -70,6 +71,29 @@ public class Movement : MonoBehaviour {
         // Stop the knockback force and reset velocity
         Body.velocity = Vector2.zero;
         isKnockedBack = false;
+        yield break;
+    }
+
+
+    // Power up the speed of the agent.
+    public void PowerUpSpeed(float speedMultiplier, float duration) {
+        // Stop the power-up coroutine if it is already running.
+        if (_activeSpeedMultiplierCoroutine != null)
+            StopCoroutine(_activeSpeedMultiplierCoroutine);
+
+        // Start the new power-up coroutine.
+        _activeSpeedMultiplierCoroutine = StartCoroutine(SpeedMultiplierCoroutine(speedMultiplier, duration));
+    }
+
+    private IEnumerator SpeedMultiplierCoroutine(float speedMultiplier, float duration) {
+        // Update the speed multiplier value.
+        _speedMultiplier = speedMultiplier;
+
+        // Wait for the power-up duration.
+        yield return new WaitForSeconds(duration);
+
+        // Reset the speed multiplier value.
+        _speedMultiplier = 1f;
         yield break;
     }
 }

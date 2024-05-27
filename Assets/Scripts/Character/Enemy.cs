@@ -15,6 +15,11 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
     [SerializeField] private int _health = 3;
     [SerializeField] private int _points = 100;
     [SerializeField] private DroppableItem[] _droppableItems;
+    [SerializeField] private Color _damageFlashColor = Color.red;
+    [SerializeField] private float _damageFlashDuration = 0.1f;
+    [SerializeField] private Material _spawnFlashMaterial;
+    [SerializeField] private float _spawnFlashDuration = 0.1f;
+
 
     [Header("States")]
     [SerializeField] private State _initialState = State.Wait;
@@ -22,6 +27,8 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
 
     public int Health { get => _health; set => _health = value; }
     public int Points { get => _points; private set => _points = value; }
+    public Material SpawnFlashMaterial => _spawnFlashMaterial;
+    public float SpawnFlashDuration => _spawnFlashDuration;
     public Action<IAgent> OnDeath { get; set; }
 
     public Character Character { get; private set; }
@@ -62,7 +69,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
 
     public void TakeDamage(int damage) {
         // Flash the character when taking damage.
-        StartCoroutine(Character.Flash(Character.DeadFlashColor, Character.FlashDuration));
+        StartCoroutine(Character.Flash(_damageFlashColor, _damageFlashDuration));
 
         // Reduce the health of the character.
         Health -= damage;
@@ -86,7 +93,8 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
         DroppableItem item = _droppableItems[UnityEngine.Random.Range(0, _droppableItems.Length)];
         if (UnityEngine.Random.value < item.DropChance) {
             // Drop the item at the specified position (without changing the z-index).
-            DroppableItem.DropItem(item, transform.position);
+            Vector3 dropPosition = new(transform.position.x, transform.position.y, item.transform.localPosition.z);
+            Instantiate(item, dropPosition, Quaternion.identity);
         }
 
         // Destroy the enemy.

@@ -37,7 +37,7 @@ public class GameMenu : MonoBehaviour {
         _healthSlider.value = GameManager.Instance.Player.Health;
 
         // Update the power up slider value.
-         _powerUpSlider.maxValue = GameManager.Instance.PowerUpDuration;
+        _powerUpSlider.maxValue = GameManager.Instance.PowerUpDuration;
         _powerUpSlider.value = GameManager.Instance.PowerUpTimer;
 
         // Update the score text.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,8 @@ public class GameManager : Singleton<GameManager> {
     [SerializeField] private int _score = 0;
     [SerializeField] private int _scoreMultiplier = 1;
 
-    public Player _player;
+    private Player _player;
+    private Coroutine _activePowerUpCoroutine;
 
     public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public int Score { get => _score; set => _score = value; }
@@ -44,22 +46,30 @@ public class GameManager : Singleton<GameManager> {
     }
 
 
-    public IEnumerator UpdatePowerUpDuration(int multiplier, float duration) {
-        // Apply the power up effect.
-        ScoreMultiplier = multiplier;
-        PowerUpDuration = duration;        
-        PowerUpTimer = PowerUpDuration;
-
-        // Wait for the power up duration to end.
-        while (PowerUpTimer > 0) {
-            PowerUpTimer -= 1;
-            yield return new WaitForSeconds(1);
+    // Update the power-up timer.
+    public void StartPowerUpTimer(float duration) {
+        // Stop the power-up timer coroutine if it is already running.
+        if (_activePowerUpCoroutine != null) {
+            StopCoroutine(_activePowerUpCoroutine);
         }
 
-        // Reset the power up effect.
+        // Start the new power-up timer.
+        _activePowerUpCoroutine = StartCoroutine(PowerUpTimerCoroutine(duration));
+    }
+
+    private IEnumerator PowerUpTimerCoroutine(float duration) {
+        // Set the power-up duration.
+        PowerUpDuration = duration;
+        PowerUpTimer = duration;
+
+        // Wait for the power-up duration.
+        while (PowerUpTimer > 0) {
+            yield return new WaitForSeconds(1);
+            PowerUpTimer--;
+        }
+
+        // Reset the power-up duration.
         PowerUpTimer = 0;
-        PowerUpDuration = 0;
-        ScoreMultiplier = 1;
         yield break;
     }
 }

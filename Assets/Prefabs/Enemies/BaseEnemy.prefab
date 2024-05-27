@@ -299,8 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previewSprite: {fileID: 1291244091, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
-  _deadFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  _flashDuration: 0.1
   _initialState: 0
   _initialFacingDirection: 1
 --- !u!114 &6850391122231729808
@@ -357,8 +355,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateAnimation: {fileID: 8385144508033217017}
-  _destroyParticlesEffect: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
-  _destroyParticlesEffectColor: {r: 0.9764706, g: 0.8352941, b: 0.7294118, a: 1}
+  _destroyParticlesVFX: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
+  _destroyParticlesVFXColor: {r: 0.7803922, g: 0.6666667, b: 0.58431375, a: 1}
 --- !u!1 &3731013529355331480
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +414,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 01c88a7c6e0cd2746a0ba15c1627492a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -485,6 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
+  _speedMultiplier: 1.5
   _initialDirection: 0
 --- !u!114 &2336115665183128907
 MonoBehaviour:
@@ -526,8 +525,12 @@ MonoBehaviour:
   _health: 3
   _points: 100
   _droppableItems:
-  - {fileID: 150804666891707021, guid: 830b8c60cf4050f449137674a4604184, type: 3}
-  - {fileID: 4659056129978409403, guid: 002d28356571b9043920bb9c7d62a989, type: 3}
+  - {fileID: 6638567582133359033, guid: 830b8c60cf4050f449137674a4604184, type: 3}
+  - {fileID: 1102915736116546836, guid: 002d28356571b9043920bb9c7d62a989, type: 3}
+  _damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageFlashDuration: 0.1
+  _spawnFlashMaterial: {fileID: 2100000, guid: 571bb8552db667f48aa0fb40bbffc387, type: 2}
+  _spawnFlashDuration: 0.1
   _initialState: 0
 --- !u!114 &6019356781086506733
 MonoBehaviour:

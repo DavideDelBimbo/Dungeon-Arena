@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 5400131146702885919}
   - component: {fileID: -5400739911137669525}
   - component: {fileID: 8224687674085998708}
-  - component: {fileID: 4659056129978409403}
+  - component: {fileID: 1102915736116546836}
+  - component: {fileID: 3643911990342898850}
+  - component: {fileID: 393148846437367880}
   m_Layer: 0
   m_Name: Power Up Item
   m_TagString: Untagged
@@ -146,7 +148,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.35
---- !u!114 &4659056129978409403
+--- !u!114 &1102915736116546836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,11 +157,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 3929682910760783071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799ab259741882b4587ad1a87061c3e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 478fc69a2256de548a6e1437fd06698b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemEffects:
+  - {fileID: 3643911990342898850}
+  - {fileID: 393148846437367880}
   _lifetime: 5
   _dropChance: 1
-  _itemEffect: {fileID: 3687111875718497032, guid: 58c161cff2307ba4a957f6637ac7e3ea, type: 3}
-  _powerUpMultiplier: 2
-  _powerUpDuration: 10
+  _destroyItemVFX: {fileID: 3687111875718497032, guid: 58c161cff2307ba4a957f6637ac7e3ea, type: 3}
+--- !u!114 &3643911990342898850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929682910760783071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e27d0bae1bdbb4baf14191050bd91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreMultiplier: 2
+  _duration: 10
+--- !u!114 &393148846437367880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929682910760783071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3158a1aa300264c449208f17918751d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedMultiplier: 1.5
+  _duration: 10

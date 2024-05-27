@@ -213,6 +213,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1691374840, guid: 29ddc732fc3671e4e8c281168558e60c, type: 3}
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesVFXColor.b
+      value: 0.41176474
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesVFXColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _destroyParticlesVFXColor.r
+      value: 0.38431376
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesEffectColor.b
       value: 0.49411768
       objectReference: {fileID: 0}

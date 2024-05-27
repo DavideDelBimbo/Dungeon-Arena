@@ -54,7 +54,7 @@ public class EnemySpawner : MonoBehaviour {
             if (spawnPosition != null) {
                 // Instantiate the enemy at the spawn position.
                 Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition.Value, Quaternion.identity);
-                StartCoroutine(spawnedEnemy.Character.Flash(Color.yellow, 0.1f, 3));
+                StartCoroutine(spawnedEnemy.Character.Flash(spawnedEnemy.SpawnFlashMaterial, spawnedEnemy.SpawnFlashDuration, 3));
 
                 // Add the spawned enemy to the spawned enemies list.
                 _spawnedEnemies.Add(spawnedEnemy);
@@ -69,8 +69,15 @@ public class EnemySpawner : MonoBehaviour {
 
         // Iterate over the valid spawn positions.
         foreach (Vector2 position in randomValidSpawnPositions) {
-            // Check if some enemy is inside the cell.
             bool isFree = true;
+
+            // Check if the player is inside the cell.
+            if (Vector2.Distance(position, GameManager.Instance.Player.transform.position) <= _groundTilemap.cellSize.x / 2) {
+                isFree = false;
+                break;
+            }
+
+            // Check if some enemy is inside the cell.
             foreach (Enemy enemy in _spawnedEnemies) {
                 // Get the cell position of the enemy.
                 Vector3Int enemyCellPosition = _groundTilemap.WorldToCell(enemy.transform.position);
