@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
     [SerializeField] private DroppableItem[] _droppableItems;
     [SerializeField] private Color _damageFlashColor = Color.red;
     [SerializeField] private float _damageFlashDuration = 0.1f;
+    [SerializeField] private EnemySpawner _spawner;
     [SerializeField] private Material _spawnFlashMaterial;
     [SerializeField] private float _spawnFlashDuration = 0.1f;
 
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
 
     public int Health { get => _health; set => _health = value; }
     public int Points { get => _points; private set => _points = value; }
+    public EnemySpawner Spawner { get => _spawner; set => _spawner = value; }
     public Material SpawnFlashMaterial => _spawnFlashMaterial;
     public float SpawnFlashDuration => _spawnFlashDuration;
     public Action<IAgent> OnDeath { get; set; }

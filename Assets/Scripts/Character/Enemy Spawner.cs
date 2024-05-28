@@ -16,6 +16,9 @@ public class EnemySpawner : MonoBehaviour {
     private readonly List<Enemy> _spawnedEnemies = new();
 
 
+    public float SpawnRadius => _spawnRadius;
+
+
     private void Start() {
         // Gather all the valid spawn positions within the spawnable area.
         _validSpawnPositions = GatherValidSpawnPositions();
@@ -59,6 +62,8 @@ public class EnemySpawner : MonoBehaviour {
             if (spawnPosition != null) {
                 // Instantiate the enemy at the spawn position.
                 Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition.Value, Quaternion.identity);
+                spawnedEnemy.Spawner = this;
+                spawnedEnemy.PatrolState.WalkableTilemap = _groundTilemap;
                 StartCoroutine(spawnedEnemy.Character.Flash(spawnedEnemy.SpawnFlashMaterial, spawnedEnemy.SpawnFlashDuration, 3));
 
                 // Add the spawned enemy to the spawned enemies list.

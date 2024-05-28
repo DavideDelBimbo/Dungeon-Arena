@@ -1,52 +1,73 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using System;
+
 
 public class Grid {
-    private int _width;
-    private int _height;
-    private float _nodeSize;
-    private Nodo[,] _nodes;
+    private readonly Tilemap _tilemap;
+    private readonly List<Node> _nodes;
 
-    public Grid(int width, int height, float nodeSize) {
-        _width = width;
-        _height = height;
-        _nodeSize = nodeSize;
-        _nodes = new Nodo[width, height];
+
+    public Grid(Tilemap tilemap) {
+        _tilemap = tilemap;
+        _nodes = new List<Node>();
+
+        // Initialize the grid.
         InitializeGrid();
     }
 
+
+    // Initialize the grid with nodes.
     private void InitializeGrid() {
-        for (int x = 0; x < _width; x++) {
-            for (int y = 0; y < _height; y++) {
-                Vector2 worldPosition = new(x * _nodeSize, y * _nodeSize);
-                bool isWalkable = !Physics2D.OverlapCircle(worldPosition, _nodeSize / 2, LayerMask.GetMask("Obstacles") | LayerMask.GetMask("Forbidden"));
-                _nodes[x, y] = new Nodo(worldPosition, isWalkable);
-            }
+        foreach (Vector3Int position in _tilemap.cellBounds.allPositionsWithin) {
+            // Check if the node is walkable.
+            bool isWalkable = _tilemap.HasTile(position);
+
+            // Calculate the position of the node.
+            Vector2 nodePosition = new(position.x, position.y);
+
+            // Create the node.
+            Node node = new(nodePosition, isWalkable);
+            _nodes.Add(node);
         }
     }
 
-    public Nodo GetNode(Vector2 position) {
-        int x = Mathf.FloorToInt(position.x / _nodeSize);
-        int y = Mathf.FloorToInt(position.y / _nodeSize);
-        if (x >= 0 && x < _width && y >= 0 && y < _height) {
-            return _nodes[x, y];
-        }
-        return null;
+
+    // Get the node on the grid at the given position.
+    public Node GetNode(Vector2 position) {
+        // Calculate the position on the grid.
+        int x = Mathf.FloorToInt(position.x / _tilemap.cellSize.x);
+        int y = Mathf.FloorToInt(position.y / _tilemap.cellSize.y);
+
+        // Get the node at the given position.
+        return _nodes.Find(node => node.Position == new Vector2(x, y));
     }
 
-    public IEnumerable<Nodo> GetNeighbors(Nodo node) {
-        List<Nodo> neighbors = new();
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) continue;
+    // Get the neighbors of the given node.
+    public List<Node> GetNeighbors(Node node) {
+        Vector2[] availableDirections = { Vector2.up, Vector2.down, Vector2.left, Vector2.right }; // List of admissible directions.
+        List<Node> neighbors = new(); // List of neighbors.
 
-                int checkX = (int)(node.Position.x + dx);
-                int checkY = (int)(node.Position.y + dy);
-                if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
-                    neighbors.Add(_nodes[checkX, checkY]);
-                }
+        foreach (Vector2 direction in availableDirections) {
+            // Calculate the neighbor position from the current node at the given direction.
+            Vector2 neighborPosition = node.Position + direction;
+
+            // Get the neighbor node based on the direction.
+            Node neighbor = GetNode(neighborPosition);
+
+            // Add the neighbor to the list if it is walkable.
+            if (neighbor != null && neighbor.IsWalkable) {
+                neighbors.Add(neighbor);
             }
         }
+
         return neighbors;
+    }
+
+    // Get center world position from cell position on the grid.
+    public Vector2 CellToCenterWorld(Vector2 cellPosition) {
+        Vector3Int cell = new((int) cellPosition.x, (int) cellPosition.y, 0);
+        return _tilemap.GetCellCenterWorld(cell);
     }
 }

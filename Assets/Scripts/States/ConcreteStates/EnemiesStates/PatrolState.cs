@@ -1,34 +1,31 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PatrolState : EnemyState {
-    [SerializeField] Transform _waypoint;
-    [SerializeField, Range(0, 10)] float _patrolRadius = 5.0f;
-    [SerializeField] Vector2 _randomRangeTime = new(1f, 3f);
+    [Header("Patrol Settings")]
+    [SerializeField] private Tilemap _walkableTilemap;
+    [SerializeField] private LayerMask _obstacleLayers;
+    
 
     private PatrolMovementStrategy _movementStrategy;
-    
+
+
+    public Tilemap WalkableTilemap { get => _walkableTilemap; set => _walkableTilemap = value; }
+
+
     public override void OnEnter() {
         base.OnEnter();
 
-        // Set the target.
-        //InputHandler.SetTarget(_waypoint);
-
         // Set the movement strategy.
-        Grid grid = new(10, 10, 1.0f);
-        //_movementStrategy = new PatrolMovementStrategy(_patrolRadius, _waypoint, _context);
-        PatrolMovementStrategy patrolStrategy = new(_context.transform, grid);
-        patrolStrategy.SetTargetPosition(_waypoint.position);
+        Grid grid = new(_walkableTilemap);
+        _movementStrategy = new PatrolMovementStrategy(grid, _context, _context.Spawner, _obstacleLayers);
         InputHandler.SetMovementStrategy(_movementStrategy);
-
-        // Start changing direction strategy.
-        //StartCoroutine(ChangeDirection());
     }
 
     public override void OnUpdate() {
         base.OnUpdate();
+
+        
         
         // Transition to Chase state if player is detected.
         /*if (InputHandler.IsPlayerDetected) {

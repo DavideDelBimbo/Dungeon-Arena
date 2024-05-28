@@ -1,124 +1,118 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*public class PatrolMovementStrategy : IMovementStrategy {
-    private readonly float _patrolRadius;
-    private Vector2 _newDirection;
-    private Transform _waypoint;
-    private Node _currentNode;
-    private Enemy _enemy;
-
-
-    public Node CurrentNode  { get => _currentNode; set => _currentNode = value; }
-
-
-    public PatrolMovementStrategy(float patrolRadius, Transform waypoint, Enemy enemy) {
-        _patrolRadius = patrolRadius;
-        _waypoint = waypoint;
-        _enemy = enemy;
-    }
-
-    
-
-    public Vector2 GetMovement() {
-        // Update the direction (inside the Patrol state).
-        return _newDirection;
-    }
-
-    public void UpdateDirection(Vector2 currentPosition, Vector2 targetPosition) {
-        float distance = Vector2.Distance(currentPosition, targetPosition);
-
-        // Check if the target is within the patrol radius.
-        if (distance > _patrolRadius) {
-            // Move towards the target until it is within the patrol radius.
-            //_newDirection = (targetPosition - currentPosition).normalized;
-            _newDirection = Vector2.zero;
-        } else {
-            // Change direction.
-            _newDirection = GetRandomDirection(currentPosition, targetPosition);
-        }
-    }
-
-
-    private Vector2 GetRandomDirection(Vector2 currentPosition, Vector2 targetPosition) {
-        Vector2 direction = (targetPosition - currentPosition).normalized;
-        float randomX = UnityEngine.Random.Range(-1f, 1f);
-        float randomY = UnityEngine.Random.Range(-1f, 1f);
-        Vector2 randomDirection = new Vector2(randomX, randomY).normalized;
-
-        // Check if the random direction is within the patrol radius.
-        if (Vector2.Distance(currentPosition, targetPosition + randomDirection) <= _patrolRadius) {
-            return randomDirection;
-        } else {
-            // If not, return the default direction.
-            return direction;
-        }
-    }
-
-    private bool IsWithinBounds(Vector2 position, Vector2 targetPosition, float minDistanceFromBounds) {
-        float distanceToCenter = Vector2.Distance(position, targetPosition);
-        return distanceToCenter <= (_patrolRadius - minDistanceFromBounds);
-    }
-
-    public Vector2 GetRandomDirectionWithinBounds(Vector2 enemyPosition, Vector2 targetPosition) {
-        Vector2 direction = (targetPosition - enemyPosition).normalized;
-        float randomX = UnityEngine.Random.Range(-1f, 1f);
-        float randomY = UnityEngine.Random.Range(-1f, 1f);
-        Vector2 randomDirection = new Vector2(randomX, randomY).normalized;
-
-        // Check if the random direction is within the patrol radius.
-        if (Vector2.Distance(context.Position, targetPosition + randomDirection) <= _patrolRadius) {
-            return randomDirection;
-        } else {
-            // If not, return the default direction.
-            return direction;
-        }
-
-    }
-    public Vector2 GetMovement() {
-        if (_currentNode != null) {
-            return _currentNode.GetBestDirection(_waypoint.position);
-        }
-
-        return Vector2.zero;
-    }
-}*/
-
 public class PatrolMovementStrategy : IMovementStrategy {
-    private Transform _enemyTransform;
-    private Nodo _currentNode;
-    private Grid _grid;
-    private AStarPathfinding _pathfinding;
-    private Queue<Nodo> _currentPath;
-    private Vector2 _targetPosition;
+    private readonly Grid _grid;
+    private readonly Enemy _enemy;
+    private readonly EnemySpawner _enemySpawn;
+    private readonly LayerMask _obstacleLayers;
+    private readonly float _tolerance;
 
-    public PatrolMovementStrategy(Transform enemyTransform, Grid grid) {
-        _enemyTransform = enemyTransform;
+    private AStarPathfinding _pathfinding;
+    private Queue<Node> _currentPath = new();
+    private Node _currentNode;
+    private float _maxDistanceFromPath = 1.5f;
+
+
+    public PatrolMovementStrategy(Grid grid, Enemy enemy, EnemySpawner enemySpawn, LayerMask obstacleLayers, float tolerance = 0.1f) {
         _grid = grid;
+        _enemy = enemy;
+        _enemySpawn = enemySpawn;
+        _obstacleLayers = obstacleLayers;
+        _tolerance = tolerance;
+
+        // Initialize the pathfinding algorithm.
         _pathfinding = new AStarPathfinding(grid);
+
+        // Get the start node of the enemy.
+        _currentNode = _grid.GetNode(_enemy.transform.position);
     }
 
     public Vector2 GetMovement() {
-        if (_currentPath == null || _currentPath.Count == 0) {
-            _currentPath = new Queue<Nodo>(_pathfinding.FindPath(_enemyTransform.position, _targetPosition));
+        // Move the enemy to the next node in the path if it exists.
+        if (_currentPath.Count > 0) {
+            return MoveToNextNode();
         }
 
-        if (_currentPath != null && _currentPath.Count > 0) {
-            Nodo nextNode = _currentPath.Peek();
-            Vector2 direction = (nextNode.Position - (Vector2)_enemyTransform.position).normalized;
-            if (Vector2.Distance(_enemyTransform.position, nextNode.Position) < 0.1f) {
-                _currentPath.Dequeue();
-            }
-            return direction * Time.deltaTime;
+        // Check if the enemy is close to the current node.
+        if (Vector2.Distance(_enemy.transform.position, _grid.CellToCenterWorld(_currentNode.Position)) > _tolerance) {
+            // Align the enemy with the current node.
+            return AlignToCurrentNode();
+        } else {
+            // Calculate a new path.
+            CalculateNewPath();
         }
 
         return Vector2.zero;
     }
 
-    public void SetTargetPosition(Vector2 targetPosition) {
-        _targetPosition = targetPosition;
-        _currentPath = new Queue<Nodo>(_pathfinding.FindPath(_enemyTransform.position, targetPosition));
-        Debug.Log(_currentPath);
+    // Align the enemy with the current node.
+    private Vector2 AlignToCurrentNode() {
+        Vector2 enemyPosition = _enemy.transform.position;
+        Vector2 direction = (_grid.CellToCenterWorld(_currentNode.Position) - enemyPosition).normalized;
+
+        // Avoid diagonal movement.
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
+            direction.x = Mathf.Sign(direction.x);
+            direction.y = 0;
+        } else {
+            direction.x = 0;
+            direction.y = Mathf.Sign(direction.y);
+        }
+
+        return direction;
+    }
+
+    // Calculate a new path to the target.
+    private void CalculateNewPath() {
+        // Check if enemy is inside the enemy spawn.
+        if (Vector2.Distance(_enemy.transform.position, _enemySpawn.transform.position) > _enemySpawn.SpawnRadius) {
+            // Calculate the path to the enemy spawn.
+            CalculatePathToTarget(_enemySpawn.transform.position);
+        } else {
+            // Define a random waypoint inside the spawn radius.
+            Vector2 spawnPosition = _enemySpawn.transform.position;
+            Vector2 randomWaypoint = spawnPosition + Random.insideUnitCircle * _enemySpawn.SpawnRadius;
+
+            // Calculate the path to the random waypoint.
+            CalculatePathToTarget(randomWaypoint);
+        }
+    }
+
+    // Calculate the path to the enemy spawn.
+    private void CalculatePathToTarget(Vector2 targetPosition) {
+        // Get the target node.
+        Node targetNode = _grid.GetNode(targetPosition);
+
+        // Calculate the path to the target node.
+        _currentPath = new Queue<Node>(_pathfinding.FindPath(_currentNode.Position, targetNode.Position));
+    }
+
+    // Move the enemy to the next node in the path.
+    private Vector2 MoveToNextNode() {
+        // Get the next node in the path.
+        Node nextNode = _currentPath.Peek();
+
+        // Calculate the distance from the enemy to the next node.
+        float distanceFromNextNode = Vector2.Distance(_enemy.transform.position, _grid.CellToCenterWorld(nextNode.Position));
+
+        // Recalculate the path if the enemy is blocked by an obstacle or if is too distant from the next node.
+        Collider2D collider = Physics2D.OverlapCircle(_enemy.transform.position, 0.2f, _obstacleLayers);
+        if (collider != null || distanceFromNextNode > _maxDistanceFromPath) {
+            _currentPath.Clear();
+            _currentNode = _grid.GetNode(_enemy.transform.position);
+            return Vector2.zero;
+        }
+
+        // Calculate the direction to the next node.
+        Vector2 direction = (nextNode.Position - _currentNode.Position).normalized;
+
+        // Check if the enemy is close to the next node.
+        if (distanceFromNextNode < _tolerance) {
+            // Update the current node to the reached node.
+            _currentNode = _currentPath.Dequeue();
+        }
+
+        return direction;
     }
 }
