@@ -68,7 +68,6 @@ public class AIInputHandler : MonoBehaviour, IInputHandler {
         return hit.collider == null;
     }
 
-
     // Debugging Gizmos.
     private void OnDrawGizmos() {
         if (_showGizmos) {

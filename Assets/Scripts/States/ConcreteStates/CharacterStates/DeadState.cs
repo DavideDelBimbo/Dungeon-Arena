@@ -13,8 +13,7 @@ public class DeadState : CharacterState {
         _context.Movement.CurrentDirection = Vector2.zero;
 
         // Disable all the colliders.
-        Collider2D[] colliders = _context.GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D collider in colliders) {
+        foreach (Collider2D collider in _context.GetComponentsInChildren<Collider2D>()) {
             collider.enabled = false;
         }
     }
@@ -38,9 +37,9 @@ public class DeadState : CharacterState {
 
     // Instantiate the dead particles VFX and destroy the agent.
     private IEnumerator DeadCoroutine() {
-        // Instantiate the dead particles VFX (without changing the z-index).
-        Vector3 deadParticlesPosition = new(_context.transform.position.x, _context.transform.position.y, _destroyParticlesVFX.transform.localPosition.z);
-        GameObject deadParticles = Instantiate(_destroyParticlesVFX, deadParticlesPosition, Quaternion.identity);
+        // Instantiate the dead particles VFX.
+        Vector2 position = transform.GetComponentInChildren<Renderer>().bounds.center;
+        GameObject deadParticles = Instantiate(_destroyParticlesVFX, position, Quaternion.identity);
 
         // Wait for the dead particles VFX to finish.
         ParticleSystem.MainModule parts = deadParticles.GetComponent<ParticleSystem>().main;

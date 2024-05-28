@@ -38,9 +38,9 @@ public class DroppableItem : MonoBehaviour {
 
     private void DestroyItem() {
         if (_destroyItemVFX != null) {
-            // Instantiate the hit VFX (without changing the z-index).
-            Vector3 destroyItemVFXPosition = new(transform.position.x, transform.position.y, _destroyItemVFX.transform.localPosition.z);
-            Instantiate(_destroyItemVFX, destroyItemVFXPosition, Quaternion.identity);
+            // Instantiate the hit VFX.
+            Vector2 position = GetComponent<Renderer>().bounds.center;
+            Instantiate(_destroyItemVFX, position, Quaternion.identity);
         }
 
         // Destroy the item.

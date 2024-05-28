@@ -6,6 +6,8 @@ public class CameraFollow : MonoBehaviour {
 
 
     private void FixedUpdate() {
+        if (GameManager.Instance.Player == null) return;
+
         Vector3 desiredPosition = GameManager.Instance.Player.transform.position + _offset;
         desiredPosition.z = transform.position.z;
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Dungeon_39
+  m_Name: Dungeon_78
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -192920122, guid: 31887bd8ad4ec554fbf4517df548a7cb, type: 3}
+  m_Sprite: {fileID: -1867716050, guid: 31887bd8ad4ec554fbf4517df548a7cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

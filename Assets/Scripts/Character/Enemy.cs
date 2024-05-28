@@ -92,9 +92,8 @@ public class Enemy : MonoBehaviour , IAgent, IDamageable {
         // Choose a random item to drop and drop it if the random number is less than the drop chance.
         DroppableItem item = _droppableItems[UnityEngine.Random.Range(0, _droppableItems.Length)];
         if (UnityEngine.Random.value < item.DropChance) {
-            // Drop the item at the specified position (without changing the z-index).
-            Vector3 dropPosition = new(transform.position.x, transform.position.y, item.transform.localPosition.z);
-            Instantiate(item, dropPosition, Quaternion.identity);
+            // Drop the item at the specified position.
+            Instantiate(item, transform.position, Quaternion.identity);
         }
 
         // Destroy the enemy.

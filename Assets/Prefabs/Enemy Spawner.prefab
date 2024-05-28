@@ -46,7 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefabs:
   - {fileID: 5500899323957171953, guid: 8f5bc7ca58a501946a37109613ccfc93, type: 3}
-  _spawnRate: 5
+  _spawnRate: 1
   _spawnRadius: 3
   _maxEnemies: 2
   _groundTilemap: {fileID: 0}
+  _ignoreLayersMask:
+    serializedVersion: 2
+    m_Bits: 64

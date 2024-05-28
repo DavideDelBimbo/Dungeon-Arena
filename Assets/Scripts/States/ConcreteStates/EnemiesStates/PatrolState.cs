@@ -10,44 +10,55 @@ public class PatrolState : EnemyState {
 
     private PatrolMovementStrategy _movementStrategy;
     
-    /*public override void OnEnter() {
+    public override void OnEnter() {
         base.OnEnter();
 
         // Set the target.
-        InputHandler.SetTarget(_waypoint);
+        //InputHandler.SetTarget(_waypoint);
 
         // Set the movement strategy.
-        _movementStrategy = new PatrolMovementStrategy(_patrolRadius);
+        Grid grid = new(10, 10, 1.0f);
+        //_movementStrategy = new PatrolMovementStrategy(_patrolRadius, _waypoint, _context);
+        PatrolMovementStrategy patrolStrategy = new(_context.transform, grid);
+        patrolStrategy.SetTargetPosition(_waypoint.position);
         InputHandler.SetMovementStrategy(_movementStrategy);
 
         // Start changing direction strategy.
-        StartCoroutine(ChangeDirection());
+        //StartCoroutine(ChangeDirection());
     }
 
     public override void OnUpdate() {
         base.OnUpdate();
         
         // Transition to Chase state if player is detected.
-        if (InputHandler.IsPlayerDetected) {
+        /*if (InputHandler.IsPlayerDetected) {
             StopCoroutine(ChangeDirection());
             _context.StateMachine.TransitionToState(_context.ChaseState);
-        }
+        }*/
     }
 
-    private IEnumerator ChangeDirection() {
+    /*private IEnumerator ChangeDirection() {
         while (true) {
             yield return new WaitForSeconds(Random.Range(_randomRangeTime.x, _randomRangeTime.y));
 
             // Change direction after a random time.
             _movementStrategy.UpdateDirection(_context.transform.position, _waypoint.position);
         }
-    }
+    }*/
 
 
-    private void OnDrawGizmos() {
+    /*private void OnDrawGizmos() {
         if (_waypoint != null) {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_waypoint.position, _patrolRadius);
+        }
+    }*/
+
+    /*private void OnTriggerStay2D(Collider2D other) {
+        if (!enabled) return;
+
+        if (other.TryGetComponent<Node>(out var node) && node != _movementStrategy.CurrentNode) {
+            _movementStrategy.CurrentNode = node;
         }
     }*/
 }

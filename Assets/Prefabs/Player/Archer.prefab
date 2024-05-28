@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447296280037473710, guid: 0fca7d4014a355f4298b46241ef1f4b1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 4447296280037473710, guid: 0fca7d4014a355f4298b46241ef1f4b1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1383949561, guid: 17df85552d3dcb246af0289b6d3483a2, type: 3}
+    - target: {fileID: 715850627358708833, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1036979194668047802, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _frames._serializedList.Array.data[0].Value.Array.size
       value: 12
@@ -308,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1167735737172569335, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1167735737172569335, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -422,6 +426,10 @@ PrefabInstance:
       propertyPath: _previewSprite
       value: 
       objectReference: {fileID: -1383949561, guid: 17df85552d3dcb246af0289b6d3483a2, type: 3}
+    - target: {fileID: 5503719934768180826, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _frames.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6197475634597744819, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Name
       value: Archer
@@ -750,6 +758,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2076692570, guid: 17df85552d3dcb246af0289b6d3483a2, type: 3}
+    - target: {fileID: 7247257075717606450, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7604308184442856991, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Name
       value: Bow
@@ -757,7 +769,7 @@ PrefabInstance:
     - target: {fileID: 7688181181998618787, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 884843833, guid: 17df85552d3dcb246af0289b6d3483a2, type: 3}
+      objectReference: {fileID: -649519313, guid: 17df85552d3dcb246af0289b6d3483a2, type: 3}
     - target: {fileID: 7688181181998618787, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Enabled
       value: 0

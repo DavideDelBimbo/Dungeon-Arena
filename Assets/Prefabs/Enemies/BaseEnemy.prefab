@@ -100,7 +100,7 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: 0, y: 0.33}
   m_Size: {x: 0.46, y: 0.73}
   m_Direction: 0
 --- !u!114 &7746108893633047363
@@ -200,7 +200,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &7831489243683397227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stateAnimation: {fileID: 8385144508033217017}
   _destroyParticlesVFX: {fileID: 3687111875718497032, guid: 7106cdac9090cd146af9811acad40100, type: 3}
-  _destroyParticlesVFXColor: {r: 0.7803922, g: 0.6666667, b: 0.58431375, a: 1}
+  _destroyParticlesVFXColor: {r: 0.9764706, g: 0.8352941, b: 0.7294118, a: 1}
 --- !u!1 &3731013529355331480
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 3731013529355331480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -457,7 +457,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.4}
+  m_Offset: {x: 0, y: 0.02}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -468,7 +468,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45, y: 0.1}
+  m_Size: {x: 0.37, y: 0.1}
   m_EdgeRadius: 0
 --- !u!114 &8440736282015050841
 MonoBehaviour:
@@ -669,7 +669,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &3306258969393822069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,7 +818,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &3157432682938798859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +967,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &372503485174293215
 MonoBehaviour:
   m_ObjectHideFlags: 0

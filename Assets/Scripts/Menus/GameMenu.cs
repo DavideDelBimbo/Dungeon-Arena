@@ -15,8 +15,10 @@ public class GameMenu : MonoBehaviour {
 
     private void Start() {
         // Set the health slider values.
-        _healthSlider.maxValue = GameManager.Instance.MaxHealth;
-        _healthSlider.value = GameManager.Instance.Player.Health;
+        if (GameManager.Instance.Player != null) {
+            _healthSlider.maxValue = GameManager.Instance.MaxHealth;
+            _healthSlider.value = GameManager.Instance.Player.Health;
+        }
 
         // Set the power up slider values.
         _powerUpSlider.value = 0;
@@ -33,8 +35,10 @@ public class GameMenu : MonoBehaviour {
     }
 
     private void Update() {
-        // Update the health slider value.
-        _healthSlider.value = GameManager.Instance.Player.Health;
+        if (GameManager.Instance.Player != null) {
+            // Update the health slider value.
+            _healthSlider.value = GameManager.Instance.Player.Health;
+        }
 
         // Update the power up slider value.
         _powerUpSlider.maxValue = GameManager.Instance.PowerUpDuration;

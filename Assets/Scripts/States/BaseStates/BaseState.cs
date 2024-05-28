@@ -8,6 +8,11 @@ public abstract class BaseState<T> : MonoBehaviour, IState where T : MonoBehavio
         _context = GetComponent<T>();
     }
 
+    protected void Start() {
+        enabled = false;
+    }
+
+
     public abstract void OnEnter();
 
     public abstract void OnExit();

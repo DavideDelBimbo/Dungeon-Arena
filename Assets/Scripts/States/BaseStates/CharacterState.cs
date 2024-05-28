@@ -15,6 +15,8 @@ public abstract class CharacterState : BaseState<Character> {
 
 
     public override void OnEnter() {
+        enabled = true;
+
         // Update the facing direction based on the current movement direction.
         _context.StateMachine.CurrentFacingDirection = _context.StateMachine.ConvertVectorToFacingDirection(_context.Movement.CurrentDirection);
 
@@ -25,6 +27,8 @@ public abstract class CharacterState : BaseState<Character> {
     public override void OnUpdate() { }
 
     public override void OnExit() {
+        enabled = false;
+
         // Stop the animation.
         StateAnimation.Stop();
     }
