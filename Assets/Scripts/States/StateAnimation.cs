@@ -1,32 +1,33 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
-using static Character;
+using DungeonArena.Utils;
+using static DungeonArena.CharacterControllers.Character;
 
-[RequireComponent(typeof(AnimatedSprite))]
-public class StateAnimation : MonoBehaviour {
-    [Header("Animation Settings")]
-    [SerializedDictionary("FacingDirection", "Sprite"), SerializeField]
-    private SerializedDictionary<FacingDirection, Sprite[]> _frames;
+namespace DungeonArena.States {
 
-    private AnimatedSprite _animatedSprite;
+    [RequireComponent(typeof(AnimatedSprite))]
+    public class StateAnimation : MonoBehaviour {
+        [Header("Animation Settings")]
+        [SerializedDictionary("FacingDirection", "Sprite"), SerializeField]
+        private SerializedDictionary<FacingDirection, Sprite[]> _frames;
 
-
-    public AnimatedSprite AnimatedSprite {
-        get => _animatedSprite;
-        private set => _animatedSprite = value;
-    }
+        private AnimatedSprite _animatedSprite;
 
 
-    void Awake() {
-        AnimatedSprite = GetComponent<AnimatedSprite>();
-    }
+        public AnimatedSprite AnimatedSprite { get => _animatedSprite; private set => _animatedSprite = value; }
 
-    public void Play(FacingDirection direction) {
-        AnimatedSprite.Frames = _frames[direction];
-        AnimatedSprite.Play();
-    }
 
-    public void Stop() {
-        AnimatedSprite.Stop();
+        void Awake() {
+            AnimatedSprite = GetComponent<AnimatedSprite>();
+        }
+
+        public void Play(FacingDirection direction) {
+            AnimatedSprite.Frames = _frames[direction];
+            AnimatedSprite.Play();
+        }
+
+        public void Stop() {
+            AnimatedSprite.Stop();
+        }
     }
 }

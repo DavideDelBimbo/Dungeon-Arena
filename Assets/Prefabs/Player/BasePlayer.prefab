@@ -131,9 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previewSprite: {fileID: 1291244091, guid: 7288cf1338d5071409fde9616e0cde8a, type: 3}
-  _hitBoxLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
   _initialState: 0
   _initialFacingDirection: 1
 --- !u!114 &5959524129237287438

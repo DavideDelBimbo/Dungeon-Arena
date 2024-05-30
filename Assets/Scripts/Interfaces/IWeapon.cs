@@ -1,8 +1,12 @@
 using UnityEngine;
-using static Character;
+using static DungeonArena.CharacterControllers.Character;
 
-public interface IWeapon {
-    void Attack(FacingDirection facingDirection, Vector2 direction);
-    void PostAttack(FacingDirection facingDirection);
-    void DealDamage(Collider2D other);
+namespace DungeonArena.Interfaces {
+    public interface IWeapon {
+        IAgent Agent { get; }
+
+        void Attack(FacingDirection facingDirection, Vector2 direction);
+        void PostAttack(FacingDirection facingDirection);
+        void DealDamage(Collider2D other);
+    }
 }

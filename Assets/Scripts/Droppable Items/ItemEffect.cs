@@ -1,5 +1,8 @@
 using UnityEngine;
+using DungeonArena.Interfaces;
 
-public abstract class ItemEffect : MonoBehaviour {
-    public abstract void ApplyEffect(IAgent target);
+namespace DungeonArena.DroppableItems {
+    public abstract class ItemEffect : MonoBehaviour {
+        public abstract void ApplyEffect(IAgent target);
+    }
 }

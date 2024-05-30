@@ -112,7 +112,6 @@ MonoBehaviour:
   _startFrameIndex: 0
   _refreshTime: 0.1
   _loop: 1
-  _spriteRenderer: {fileID: 0}
 --- !u!58 &8224687674085998708
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +163,7 @@ MonoBehaviour:
   - {fileID: 3643911990342898850}
   - {fileID: 393148846437367880}
   _lifetime: 5
-  _dropChance: 1
+  _dropChance: 0.4
   _destroyItemVFX: {fileID: 3687111875718497032, guid: 58c161cff2307ba4a957f6637ac7e3ea, type: 3}
 --- !u!114 &3643911990342898850
 MonoBehaviour:

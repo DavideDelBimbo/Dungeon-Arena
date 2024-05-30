@@ -1,12 +1,15 @@
 using UnityEngine;
+using DungeonArena.Managers;
 
-public class StartMenu : MonoBehaviour {
-    public void StartGame() {
-        // Load the character selection scene.
-        SceneManager.Instance.LoadNextScene();
-    }
+namespace DungeonArena.Menus {
+    public class StartMenu : MonoBehaviour {
+        public void StartGame() {
+            // Load the character selection scene.
+            SceneManager.Instance.LoadNextScene();
+        }
 
-    public void QuitGame() {
-        SceneManager.QuitGame();
+        public void QuitGame() {
+            SceneManager.QuitGame();
+        }
     }
 }

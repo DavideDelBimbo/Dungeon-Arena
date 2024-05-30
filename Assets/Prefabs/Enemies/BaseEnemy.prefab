@@ -217,7 +217,6 @@ MonoBehaviour:
   _startFrameIndex: 0
   _refreshTime: 0.3
   _loop: 1
-  _spriteRenderer: {fileID: 0}
 --- !u!114 &8534671528179922296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +341,7 @@ MonoBehaviour:
   _stateAnimation: {fileID: 536312826656435725}
   _startAttackFrame: 1
   _attackDurationFrames: 1
+  _attackRate: 1
 --- !u!114 &4915587859713909326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,12 +369,12 @@ GameObject:
   - component: {fileID: 9097000240734264995}
   - component: {fileID: 1489642322456543672}
   - component: {fileID: 8440736282015050841}
+  - component: {fileID: 5720027989129312949}
   - component: {fileID: 2336115665183128907}
   - component: {fileID: 5500899323957171953}
   - component: {fileID: 6019356781086506733}
   - component: {fileID: 1837509716172334521}
   - component: {fileID: 4706232982999839776}
-  - component: {fileID: 5084334386225178230}
   m_Layer: 8
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -483,8 +483,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
-  _speedMultiplier: 1.5
+  _speedMultiplier: 1
   _initialDirection: 0
+--- !u!114 &5720027989129312949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3731013529355331480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f056eb431aa440a48a5aafd317b39a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showPath: 1
 --- !u!114 &2336115665183128907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,12 +512,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectionRange: 5
   _attackRange: 1.5
+  _attackSpeed: 1
+  _alignmentDirectionThreshold: 0.1
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  _obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
   _showGizmos: 1
   _gizmoLineOfSightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _gizmoDetectionColor: {r: 0, g: 1, b: 0, a: 1}
@@ -532,6 +544,12 @@ MonoBehaviour:
   _spawner: {fileID: 0}
   _spawnFlashMaterial: {fileID: 2100000, guid: 571bb8552db667f48aa0fb40bbffc387, type: 2}
   _spawnFlashDuration: 0.1
+  _walkableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 2624
   _initialState: 0
 --- !u!114 &6019356781086506733
 MonoBehaviour:
@@ -558,10 +576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ac95812a35d19419eab39290a2b999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkableTilemap: {fileID: 0}
-  _obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 576
 --- !u!114 &4706232982999839776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,18 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8376a5417e13a459108bf650dde475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5084334386225178230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3731013529355331480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f8c01effa047b46accfe19fc7475d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _target: {fileID: 0}
 --- !u!1 &3973515468149910050
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +691,6 @@ MonoBehaviour:
   _startFrameIndex: 0
   _refreshTime: 0.1
   _loop: 0
-  _spriteRenderer: {fileID: 0}
 --- !u!114 &8385144508033217017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +839,6 @@ MonoBehaviour:
   _startFrameIndex: 0
   _refreshTime: 0.1
   _loop: 0
-  _spriteRenderer: {fileID: 0}
 --- !u!114 &536312826656435725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,7 +987,6 @@ MonoBehaviour:
   _startFrameIndex: 0
   _refreshTime: 0.2
   _loop: 1
-  _spriteRenderer: {fileID: 0}
 --- !u!114 &1299342890638822170
 MonoBehaviour:
   m_ObjectHideFlags: 0

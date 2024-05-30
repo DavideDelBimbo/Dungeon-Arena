@@ -222,15 +222,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesVFXColor.b
-      value: 0.41176474
+      value: 0.49803925
       objectReference: {fileID: 0}
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesVFXColor.g
-      value: 0.36078432
+      value: 0.49411768
       objectReference: {fileID: 0}
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesVFXColor.r
-      value: 0.38431376
+      value: 0.5254902
       objectReference: {fileID: 0}
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesEffectColor.b
@@ -243,6 +243,10 @@ PrefabInstance:
     - target: {fileID: 3078360260957238947, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _destroyParticlesEffectColor.r
       value: 0.44705886
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330161255179282822, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _attackRate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4330161255179282822, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: _startAttackFrame

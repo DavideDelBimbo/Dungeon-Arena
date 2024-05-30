@@ -1,7 +1,9 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
-using static Character;
+using DungeonArena.HitBoxes;
+using static DungeonArena.CharacterControllers.Character;
 
+namespace DungeonArena.Weapons {
 public class Sword : MeleeWeapon {
     [Header("Sword Settings")]    
     [SerializedDictionary("FacingDirection", "Hit Box"), SerializeField]
@@ -17,4 +19,5 @@ public class Sword : MeleeWeapon {
     protected override void DisableHitBox(FacingDirection facingDirection) {
         _swordHitBoxes[facingDirection].Disable();
     }
+}
 }

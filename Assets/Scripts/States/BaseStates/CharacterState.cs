@@ -1,35 +1,40 @@
 using UnityEngine;
+using DungeonArena.Interfaces;
+using DungeonArena.CharacterControllers;
 
-[RequireComponent(typeof(Character))]
-public abstract class CharacterState : BaseState<Character> {
-    [Header("State Settings")]
-    [SerializeField] private StateAnimation _stateAnimation;
+namespace DungeonArena.States {
 
-
-    protected StateAnimation StateAnimation {
-        get => _stateAnimation;
-        private set => _stateAnimation = value;
-    }
-
-    protected IInputHandler InputHandler => _context.InputHandler;
+    [RequireComponent(typeof(Character))]
+    public abstract class CharacterState : BaseState<Character> {
+        [Header("State Settings")]
+        [SerializeField] private StateAnimation _stateAnimation;
 
 
-    public override void OnEnter() {
-        enabled = true;
+        protected StateAnimation StateAnimation {
+            get => _stateAnimation;
+            private set => _stateAnimation = value;
+        }
 
-        // Update the facing direction based on the current movement direction.
-        _context.StateMachine.CurrentFacingDirection = _context.StateMachine.ConvertVectorToFacingDirection(_context.Movement.CurrentDirection);
+        protected IInputHandler InputHandler => _context.InputHandler;
 
-        // Play the animation based on the current facing direction.
-        StateAnimation.Play(_context.StateMachine.CurrentFacingDirection);
-    }
 
-    public override void OnUpdate() { }
+        public override void OnEnter() {
+            enabled = true;
 
-    public override void OnExit() {
-        enabled = false;
+            // Update the facing direction based on the current movement direction.
+            _context.StateMachine.CurrentFacingDirection = _context.StateMachine.ConvertVectorToFacingDirection(_context.Movement.CurrentDirection);
 
-        // Stop the animation.
-        StateAnimation.Stop();
+            // Play the animation based on the current facing direction.
+            StateAnimation.Play(_context.StateMachine.CurrentFacingDirection);
+        }
+
+        public override void OnUpdate() { }
+
+        public override void OnExit() {
+            enabled = false;
+
+            // Stop the animation.
+            StateAnimation.Stop();
+        }
     }
 }

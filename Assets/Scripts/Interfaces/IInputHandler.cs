@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public interface IInputHandler {
-    Vector2 GetMovement();
-    bool GetFire();
+namespace DungeonArena.Interfaces {
+    public interface IInputHandler {
+        Vector2 GetMovement();
+        bool GetFire();
+    }
 }

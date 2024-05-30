@@ -1328,13 +1328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36c812d3ab25f14089ca18a94aabd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 3
+  _maxHealth: 10
   _score: 0
   _scoreMultiplier: 1
-  _player: {fileID: 0}
-  OnGameOver:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1527349690
 Transform:
   m_ObjectHideFlags: 0
