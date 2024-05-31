@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace DungeonArena.Interfaces {
     public enum AgentType { Player, Enemy }
@@ -7,6 +8,7 @@ namespace DungeonArena.Interfaces {
         int Health { get; set; }
         Action<IAgent> OnDeath { get; set; }
         AgentType AgentType { get; }
+        Transform Transform { get; }
 
         void Die();
     }

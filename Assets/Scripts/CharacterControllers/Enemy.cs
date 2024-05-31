@@ -41,6 +41,7 @@ namespace DungeonArena.CharacterControllers {
         public LayerMask ObstacleLayers => _obstacleLayers;
         public Action<IAgent> OnDeath { get; set; }
         public AgentType AgentType => AgentType.Enemy;
+        public Transform Transform => transform;
 
         public Character Character { get; private set; }
         public Movement Movement { get; private set; }

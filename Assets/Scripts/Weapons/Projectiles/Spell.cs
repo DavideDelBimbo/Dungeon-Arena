@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using DungeonArena.Utils;
 using static DungeonArena.CharacterControllers.Character;
 
@@ -6,10 +7,10 @@ namespace DungeonArena.Weapons.Projectiles {
 
     [RequireComponent(typeof(AnimatedSprite))]
     public class Spell : Projectile {
-        private AnimatedSprite _animatedSprite;
+        private AnimatedSprite[] _animatedSprites;
 
         private void Awake() {
-            _animatedSprite = GetComponent<AnimatedSprite>();
+            _animatedSprites = GetComponentsInChildren<AnimatedSprite>();
         }
 
         public override void Fire(FacingDirection facingDirection, Vector2 direction) {
@@ -19,8 +20,15 @@ namespace DungeonArena.Weapons.Projectiles {
             // Rotate the spell sprite.
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
+            // Flip the shadow sprite.
+            if (direction.x > 0 || direction.y > 0) {
+                Vector2 shadowPosition = transform.GetChild(0).localPosition;
+                shadowPosition.y *= -1;
+                transform.GetChild(0).localPosition = shadowPosition;
+            }
+
             // Set the spell sprite and enable the hit box.
-            _animatedSprite.Play();
+            Array.ForEach(_animatedSprites, animatedSprite => animatedSprite.Play());
 
             // Fire the spell.
             base.Fire(facingDirection, direction);

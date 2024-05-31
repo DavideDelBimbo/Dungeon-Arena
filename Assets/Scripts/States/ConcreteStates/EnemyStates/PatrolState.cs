@@ -6,7 +6,8 @@ namespace DungeonArena.States.EnemyStates {
             base.OnEnter();
 
             // Set the movement strategy.
-            InputHandler.MovementStrategy = new PatrolMovementStrategy(_context, _tolerance, _maxDistanceFromPath);
+            InputHandler.MovementStrategy = new PatrolMovementStrategy(_context, _tolerance, _maxDistanceFromPath,
+                                                                        _recalculatePathDistanceThreshold, maxStepsBeforeRecalculate);
         }
 
         public override void OnUpdate() {

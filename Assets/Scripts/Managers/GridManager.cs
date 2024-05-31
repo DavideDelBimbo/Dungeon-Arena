@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using DungeonArena.Pathfinding;
 
 namespace DungeonArena.Managers {
@@ -9,7 +11,8 @@ namespace DungeonArena.Managers {
         [SerializeField] private Vector2 _mapSize;
         [SerializeField] private Vector2 _originPosition;
         [SerializeField, Range(0.1f, 1f)] private float _cellSize;
-        [SerializeField] private LayerMask _obstaclesLayer;
+        [SerializeField] private Tilemap _groundTilemap;
+        [SerializeField] private LayerMask _obstacleLayers;
 
         [Header("Gizmo Settings")]
         [SerializeField] private bool _showGrid = false;
@@ -44,8 +47,8 @@ namespace DungeonArena.Managers {
                     Vector2 nodeWorldCenterPosition = nodeWorldPosition + new Vector2(_cellSize / 2, _cellSize / 2);
 
                     // Check if the node is walkable.
-                    Collider2D collider = Physics2D.OverlapCircle(nodeWorldCenterPosition, _cellSize / 2, _obstaclesLayer);
-                    bool isWalkable = !(collider != null && collider.bounds.Contains(nodeWorldPosition));
+                    Collider2D collider = Physics2D.OverlapCircle(nodeWorldCenterPosition, _cellSize / 2, _obstacleLayers);
+                    bool isWalkable = _groundTilemap.HasTile(_groundTilemap.WorldToCell(nodeWorldPosition)) && collider == null;
                     
                     _grid[x, y] = new Node(nodeGridPosition, nodeWorldPosition, nodeWorldCenterPosition, isWalkable);
                 }
@@ -96,7 +99,7 @@ namespace DungeonArena.Managers {
 
                 if (_grid != null) {
                     foreach (Node node in _grid) {
-                        Gizmos.color = node.IsWalkable ? Color.white : Color.red;
+                        Gizmos.color = node.IsWalkable ? Color.white.WithAlpha(0.2f) : Color.red.WithAlpha(0.2f);
                         Gizmos.DrawWireCube(node.WorldCenterPosition, Vector2.one * _cellSize);
                     }
                 }

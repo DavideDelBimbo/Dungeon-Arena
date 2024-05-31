@@ -23,7 +23,7 @@ namespace DungeonArena.Weapons.Projectiles {
         public IAgent Owner { get => _owner; set => _owner = value; }
 
 
-        protected void Start() {
+        protected virtual void Start() {
             // Destroy the projectile after a certain amount of time.
             Destroy(gameObject, _lifeTime);
         }

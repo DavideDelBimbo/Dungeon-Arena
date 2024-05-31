@@ -1,5 +1,6 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using DungeonArena.CharacterControllers;
 
 namespace DungeonArena.Managers {
@@ -18,6 +19,7 @@ namespace DungeonArena.Managers {
         public float PowerUpDuration { get; set; } = 0;
         public float PowerUpTimer { get; set; } = 0;
         public Player Player { get => _player; set => _player = value; }
+        public List<Enemy> Enemies { get; set; } = new List<Enemy>();
 
 
         public void NewGame() {
@@ -31,6 +33,23 @@ namespace DungeonArena.Managers {
 
             // Reset the score.
             Score = 0;
+        }
+
+        public void EndGame() {
+            // Destroy the player.
+            if (Player != null) {
+                Destroy(Player.gameObject);
+            }
+
+            // Destroy all enemies.
+            foreach (Enemy enemy in Enemies) {
+                if (enemy != null) {
+                    Destroy(enemy.gameObject);
+                }
+            }
+
+            // Clear the list of enemies.
+            Enemies.Clear();
         }
 
 

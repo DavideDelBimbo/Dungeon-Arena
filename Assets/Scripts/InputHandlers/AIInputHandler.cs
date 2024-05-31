@@ -1,9 +1,12 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using DungeonArena.Interfaces;
 using DungeonArena.CharacterControllers;
 using DungeonArena.Pathfinding;
 using DungeonArena.Managers;
+using DungeonArena.Utils;
 
 namespace DungeonArena.InputHandlers {
 
@@ -14,6 +17,7 @@ namespace DungeonArena.InputHandlers {
         [SerializeField] private float _detectionRange = 5f;
         [SerializeField] private float _attackRange = 2f;
         [SerializeField, Range(0.1f, 10f)] private float _attackSpeed = 1.0f;
+        [SerializeField] private float _separationDistance = 0.25f; // Distance to maintain from other enemies.
         [SerializeField] private LayerMask _playerLayer;
 
         [Header("Gizmos Settings")]
@@ -44,16 +48,22 @@ namespace DungeonArena.InputHandlers {
             Enemy = GetComponent<Enemy>();
         }
 
-
         public Vector2 GetMovement() {
             // Define the movement strategy.
-            if (MovementStrategy != null) {
-                return MovementStrategy.GetMovement();
+            Vector2 movement = MovementStrategy != null ? MovementStrategy.GetMovement() : Vector2.zero;
+
+            // Apply separation behavior to avoid overlap with other enemies or with player.
+            List<IAgent> agentsInWay = new() { Target != null ? Target : null };
+            agentsInWay.AddRange(GameManager.Instance.Enemies.Where(enemy => enemy != null && enemy != Enemy));
+            if (!MovementUtils.HasSufficientSpace(movement, Enemy, agentsInWay, _separationDistance)) {
+                // Stop movement if there's no sufficient space ahead.
+                return Vector2.zero;
             }
 
-            return Vector2.zero;
+            // Combine the movement strategy with the separation behavior.
+            return movement;
         }
-
+        
         public bool GetFire() {
             if (IsPlayerDetected) {                
                 // Predict the player's position and attack direction.

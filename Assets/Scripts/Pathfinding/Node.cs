@@ -5,7 +5,7 @@ namespace DungeonArena.Pathfinding {
         public Vector2Int GridPosition { get; }
         public Vector2 WorldPosition { get; }
         public Vector2 WorldCenterPosition { get; }
-        public bool IsWalkable { get; }
+        public bool IsWalkable { get; set; }
         public Node Parent { get; set; }
         public float GCost { get; set; }
         public float HCost { get; set; }

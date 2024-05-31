@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using DungeonArena.Interfaces;
 using DungeonArena.Managers;
 using DungeonArena.CharacterControllers;
@@ -11,16 +12,22 @@ namespace DungeonArena.Strategies.MovementStrategies {
         protected Enemy _enemy;
         protected float _tolerance;
         protected float _maxDistanceFromPath = 1.5f;
+        protected float _recalculatePathDistanceThreshold = 2.0f;
+        protected int _maxStepsBeforeRecalculate = 100;
 
         protected PathFinding Pathfinding => ((AIInputHandler)_enemy.InputHandler).PathFinding;
         protected Queue<Node> _currentPath = new();
         protected Node _currentNode;
 
+        private int _stepsSinceLastNode = 0;
 
-        public BaseMovementStrategy(Enemy enemy, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f) {
+
+        public BaseMovementStrategy(Enemy enemy, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f, float recalculatePathDistanceThreshold = 2.0f, int maxStepsBeforeRecalculate = 100) {
                 _enemy = enemy;
                 _tolerance = tolerance;
                 _maxDistanceFromPath = maxDistanceFromPath;
+                _recalculatePathDistanceThreshold = recalculatePathDistanceThreshold;
+                _maxStepsBeforeRecalculate = maxStepsBeforeRecalculate;
 
                 // Get the start node of the enemy.
                 _currentNode = GridManager.Instance.GetNodeFromWorldPoint(_enemy.transform.position);
@@ -36,12 +43,23 @@ namespace DungeonArena.Strategies.MovementStrategies {
             Node targetNode = GridManager.Instance.GetNodeFromWorldPoint(targetPosition);
 
             // Calculate the path to the target node.
-            if (targetNode != null)
-                _currentPath = new Queue<Node>(Pathfinding.FindPath(_currentNode.WorldPosition, targetNode.WorldPosition));
+            if (targetNode != null && targetNode.IsWalkable) {
+                // Create a list of dynamic obstacles (i.e. points in a radius around other enemies in range of this enemy).
+                List<Vector2> dynamicObstacles = new();
+                dynamicObstacles.AddRange(GameManager.Instance.Enemies
+                                .Where(enemy => enemy != null && enemy != _enemy && Vector2.Distance(enemy.transform.position, _enemy.transform.position) < _recalculatePathDistanceThreshold)
+                                .SelectMany(enemy => Physics2D.OverlapCircleAll(enemy.transform.position, _recalculatePathDistanceThreshold).Select(collider => (Vector2) collider.transform.position)));
+
+                // Find the path to the target node.
+                _currentPath = new Queue<Node>(Pathfinding.FindPath(_currentNode.WorldPosition, targetNode.WorldPosition, dynamicObstacles));
+                _stepsSinceLastNode = 0;
+            }
         }
 
         // Move the enemy to the next node in the path.
         protected Vector2 MoveToNextNode() {
+            _stepsSinceLastNode++;
+
             // Check that exists a path.
             if (_currentPath == null || _currentPath.Count == 0) {
                 return Vector2.zero;
@@ -71,7 +89,10 @@ namespace DungeonArena.Strategies.MovementStrategies {
             if (distanceFromNextNode < _tolerance) {
                 // Update the current node to the reached node.
                 _currentNode = _currentPath.Dequeue();
-            }            
+
+                // Reset the steps counter.
+                _stepsSinceLastNode = 0;
+            }
 
             return direction;
         }
@@ -85,6 +106,11 @@ namespace DungeonArena.Strategies.MovementStrategies {
             // Check if the enemy is too far from the path.
             float distanceFromPath = Vector2.Distance(_enemy.transform.position, _currentNode.WorldCenterPosition);
             if (distanceFromPath > _maxDistanceFromPath) {
+                return true;
+            }
+
+            // Check if the enemy is stuck in the same position for too long.
+            if (_stepsSinceLastNode > _maxStepsBeforeRecalculate) {
                 return true;
             }
 

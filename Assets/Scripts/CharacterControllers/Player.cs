@@ -20,6 +20,7 @@ namespace DungeonArena.CharacterControllers {
         public int Health { get; set; }
         public Action<IAgent> OnDeath { get; set; }
         public AgentType AgentType => AgentType.Player;
+        public Transform Transform => transform;
 
         public Character Character { get; private set;}
         public Movement Movement { get; private set; }

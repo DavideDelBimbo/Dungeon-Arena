@@ -9,13 +9,18 @@ namespace DungeonArena.Pathfinding {
         [SerializeField] private bool _showPath = true;
 
         private List<Node> _path = new();
+        private List<Node> _dynamicObstaclesNodes = new();
 
 
         // Find the path from the start position to the target position.
-        public List<Node> FindPath(Vector3 startPosition, Vector3 targetPosition) {
+        public List<Node> FindPath(Vector3 startPosition, Vector3 targetPosition, List<Vector2> dynamicObstacles = null) {
             Node startNode = GridManager.Instance.GetNodeFromWorldPoint(startPosition);
             Node targetNode = GridManager.Instance.GetNodeFromWorldPoint(targetPosition);
             if (startNode == null || targetNode == null) return null;
+
+            // Set the walkable status of the dynamic obstacles.
+            _dynamicObstaclesNodes = dynamicObstacles?.ConvertAll(position => GridManager.Instance.GetNodeFromWorldPoint(position));
+            _dynamicObstaclesNodes?.ForEach(node => node.IsWalkable = false);
 
             // Initialize the open and closed lists.
             List<Node> openList = new() { startNode }; // List of nodes to be evaluated.
@@ -67,6 +72,9 @@ namespace DungeonArena.Pathfinding {
                 currentNode = currentNode.Parent;
             }
 
+            // Reset the walkable status of the dynamic obstacles.
+            _dynamicObstaclesNodes?.ForEach(node => node.IsWalkable = true);
+
             // Reverse the path to get the correct order.
             path.Reverse();
             _path = path;
@@ -86,9 +94,10 @@ namespace DungeonArena.Pathfinding {
         private void OnDrawGizmos() {
             if (_path.Count > 0 && _showPath) {
                 Gizmos.color = Color.green;
-                foreach (Node node in _path) {
-                    Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one);
-                }
+                _path.ForEach(node => { Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one); });
+
+                Gizmos.color = Color.red;
+                _dynamicObstaclesNodes?.ForEach(node => { Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one); });
             }
         }
     }

@@ -5,13 +5,14 @@ using DungeonArena.CharacterControllers;
 namespace DungeonArena.Strategies.MovementStrategies {
     public class ChaseMovementStrategy : BaseMovementStrategy {
         private readonly Player _target;
-        private readonly float _recalculatePathDistanceThreshold;
         private Vector2 _lastTargetPosition;
 
 
-        public ChaseMovementStrategy(Enemy enemy, Player target, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f, float recalculatePathDistanceThreshold = 2.0f) : base(enemy, tolerance, maxDistanceFromPath) {
+        public ChaseMovementStrategy(Enemy enemy, Player target, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f,
+                                    float recalculatePathDistanceThreshold = 2.0f, int maxStepsBeforeRecalculate = 100) :
+                                    base(enemy, tolerance, maxDistanceFromPath, recalculatePathDistanceThreshold, maxStepsBeforeRecalculate)
+        {
             _target = target;
-            _recalculatePathDistanceThreshold = recalculatePathDistanceThreshold;
             _lastTargetPosition = _target.transform.position;
         }
 

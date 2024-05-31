@@ -11,7 +11,8 @@ namespace DungeonArena.States.EnemyStates {
             base.OnEnter();
 
             // Set the movement strategy.
-            InputHandler.MovementStrategy = new WaitMovementStrategy(_context, _tolerance, _maxDistanceFromPath);
+            InputHandler.MovementStrategy = new WaitMovementStrategy(_context, _tolerance, _maxDistanceFromPath,
+                                                                    _recalculatePathDistanceThreshold, maxStepsBeforeRecalculate);
 
             // Invoke the transition to Patrol state after the duration.
             Invoke(nameof(TransitionToPatrol), _duration);

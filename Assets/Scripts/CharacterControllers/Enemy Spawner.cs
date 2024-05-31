@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Unity.VisualScripting;
 using DungeonArena.Interfaces;
 using DungeonArena.Managers;
 
@@ -24,6 +25,7 @@ namespace DungeonArena.CharacterControllers {
 
 
         public float SpawnRadius => _spawnRadius;
+        public List<Vector2> ValidSpawnPositions => _validSpawnPositions;
 
 
         private void Start() {
@@ -70,6 +72,7 @@ namespace DungeonArena.CharacterControllers {
                     // Instantiate the enemy at the spawn position.
                     Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition.Value, Quaternion.identity);
                     spawnedEnemy.Spawner = this;
+                    GameManager.Instance.Enemies.Add(spawnedEnemy);
                     StartCoroutine(spawnedEnemy.Character.Flash(spawnedEnemy.SpawnFlashMaterial, spawnedEnemy.SpawnFlashDuration, 3));
 
                     // Add the spawned enemy to the spawned enemies list.
@@ -117,6 +120,7 @@ namespace DungeonArena.CharacterControllers {
         private void HandleEnemyDeath(IAgent enemy) {
             // Remove the enemy from the spawned enemies list.
             _spawnedEnemies.Remove(enemy as Enemy);
+            GameManager.Instance.Enemies.Remove(enemy as Enemy);
             enemy.OnDeath -= HandleEnemyDeath;
         }
 
@@ -131,7 +135,7 @@ namespace DungeonArena.CharacterControllers {
 
             // Draw a wire sphere for each valid spawn position.
             if (_validSpawnPositions != null) {
-                Gizmos.color = Color.green;
+                Gizmos.color = Color.yellow.WithAlpha(0.2f);
                 _validSpawnPositions.ForEach(validPosition => Gizmos.DrawWireSphere(validPosition, _cellSize / 2));
             }
         }

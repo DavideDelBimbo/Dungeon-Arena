@@ -8,12 +8,6 @@ namespace DungeonArena.States.CharacterStates {
             // Get new direction based on input.
             Vector2 newDirection = InputHandler.GetMovement(); 
 
-            // Mantain a safe distance from other agents.
-            if (Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("Agent"))) {
-                _context.Movement.CurrentDirection = Vector2.zero;
-                _context.StateMachine.TransitionToState(_context.IdleState);
-            }
-
             // Transition to Walk state if direction changes.
             if (newDirection != _context.Movement.CurrentDirection) {
                 _context.Movement.CurrentDirection = newDirection;

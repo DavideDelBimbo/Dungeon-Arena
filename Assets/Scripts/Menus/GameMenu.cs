@@ -81,6 +81,9 @@ namespace DungeonArena.UI {
         }
 
         public void ReturnToScene(string sceneName) {
+            // End the game.
+            GameManager.Instance.EndGame();
+
             // Reset the time scale.
             Time.timeScale = 1;
 
@@ -92,6 +95,9 @@ namespace DungeonArena.UI {
         }
 
         public void ReturnToScene(int sceneIndex) {
+            // End the game.
+            GameManager.Instance.EndGame();
+
             // Reset the time scale.
             Time.timeScale = 1;
 
@@ -114,6 +120,9 @@ namespace DungeonArena.UI {
 
             // Unsubscribe from the game over event.
             player.OnDeath -= ShowGameOverMenu;
+
+            // End the game.
+            GameManager.Instance.EndGame();
 
             // Pause the game.
             Time.timeScale = 0;
