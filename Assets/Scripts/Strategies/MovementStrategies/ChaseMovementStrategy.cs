@@ -1,15 +1,17 @@
 using UnityEngine;
+using DungeonArena.Managers;
 using DungeonArena.CharacterControllers;
-using DungeonArena.Pathfinding;
 
 namespace DungeonArena.Strategies.MovementStrategies {
     public class ChaseMovementStrategy : BaseMovementStrategy {
         private readonly Player _target;
+        private readonly float _recalculatePathDistanceThreshold;
         private Vector2 _lastTargetPosition;
 
 
-        public ChaseMovementStrategy(Enemy enemy, Player target, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f, float recalculationDistanceThreshold = 2.0f) : base(enemy, tolerance, maxDistanceFromPath, recalculationDistanceThreshold) {
+        public ChaseMovementStrategy(Enemy enemy, Player target, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f, float recalculatePathDistanceThreshold = 2.0f) : base(enemy, tolerance, maxDistanceFromPath) {
             _target = target;
+            _recalculatePathDistanceThreshold = recalculatePathDistanceThreshold;
             _lastTargetPosition = _target.transform.position;
         }
 
@@ -39,7 +41,7 @@ namespace DungeonArena.Strategies.MovementStrategies {
             float distanceToLastTargetPosition = Vector2.Distance(_lastTargetPosition, _target.transform.position);
 
             // Recalculate the path if the enemy has line of sight to the player and the player has moved a certain distance.            
-            return _currentPath!= null && HasLineOfSight() && (_currentPath.Count == 0 || distanceToLastTargetPosition > _recalculationDistanceThreshold);
+            return _currentPath!= null && HasLineOfSight() && (_currentPath.Count == 0 || distanceToLastTargetPosition > _recalculatePathDistanceThreshold);
         }
 
         // Check if the enemy has line of sight to the player.

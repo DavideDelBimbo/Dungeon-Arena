@@ -1,9 +1,9 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using DungeonArena.Managers;
+using DungeonArena.Pathfinding;
 
-namespace DungeonArena.Pathfinding {
+namespace DungeonArena.Managers {
     public class GridManager : Singleton<GridManager> {
         [Header("Grid Settings")]
         [SerializeField] private Vector2 _mapSize;

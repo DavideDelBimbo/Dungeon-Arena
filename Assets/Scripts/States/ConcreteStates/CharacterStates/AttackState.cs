@@ -32,6 +32,7 @@ namespace DungeonArena.States.CharacterStates {
 
                 // Attack with the weapon.
                 _context.Weapon.Attack(_context.StateMachine.CurrentFacingDirection, direction);
+                StartCoroutine(AttackCooldown());
                 _hasAttacked = true;
             }
 
@@ -43,11 +44,11 @@ namespace DungeonArena.States.CharacterStates {
 
             // Transition to Idle when animation is ended.
             if (!StateAnimation.AnimatedSprite.IsPlaying) {
-                StartCoroutine(AttackCooldown());
                 _context.StateMachine.TransitionToState(_context.IdleState);
             }
         }
 
+        // Cooldown for the attack.
         private IEnumerator AttackCooldown() {
             CanAttack = false;
             yield return new WaitForSeconds(_attackRate);

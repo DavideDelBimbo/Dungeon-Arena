@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using DungeonArena.Interfaces;
 using static DungeonArena.CharacterControllers.Character;
 

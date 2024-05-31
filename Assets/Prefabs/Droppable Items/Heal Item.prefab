@@ -161,7 +161,7 @@ MonoBehaviour:
   _itemEffects:
   - {fileID: 5181100200655457149}
   _lifetime: 5
-  _dropChance: 0.5
+  _dropChance: 0.6
   _destroyItemVFX: {fileID: 3687111875718497032, guid: 58c161cff2307ba4a957f6637ac7e3ea, type: 3}
 --- !u!114 &5181100200655457149
 MonoBehaviour:
@@ -175,4 +175,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94a1411077977d04784248c7d1abb433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healAmount: 1
+  _healAmount: 2

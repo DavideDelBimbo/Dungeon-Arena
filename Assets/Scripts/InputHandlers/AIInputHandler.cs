@@ -14,7 +14,6 @@ namespace DungeonArena.InputHandlers {
         [SerializeField] private float _detectionRange = 5f;
         [SerializeField] private float _attackRange = 2f;
         [SerializeField, Range(0.1f, 10f)] private float _attackSpeed = 1.0f;
-        [SerializeField, Range(0.0f, 0.5f)] private float _alignmentDirectionThreshold = 0.1f;
         [SerializeField] private LayerMask _playerLayer;
 
         [Header("Gizmos Settings")]
@@ -26,7 +25,8 @@ namespace DungeonArena.InputHandlers {
         private Enemy _enemy;
         private PathFinding _pathFinding;
         private IMovementStrategy _movementStrategy;
-        private Player _target;
+
+        private Player Target => GameManager.Instance.Player;
 
 
         public float DetectionRange => _detectionRange;
@@ -42,7 +42,6 @@ namespace DungeonArena.InputHandlers {
         private void Awake() {
             PathFinding = GetComponent<PathFinding>();
             Enemy = GetComponent<Enemy>();
-            _target = GameManager.Instance.Player;
         }
 
 
@@ -56,36 +55,26 @@ namespace DungeonArena.InputHandlers {
         }
 
         public bool GetFire() {
-            if (IsPlayerDetected && Vector2.Distance(Enemy.transform.position, _target.transform.position) <= AttackRange) {
-                // Get the direction of the attack.
-                Vector2 direction = (_target.transform.position - Enemy.transform.position).normalized;
+            if (IsPlayerDetected) {                
+                // Predict the player's position and attack direction.
+                float predictionTime = Vector2.Distance(Enemy.transform.position, Target.transform.position) / _attackSpeed;
+                Vector2 predictedPosition = (Vector2) Target.transform.position + Target.Movement.Body.velocity * predictionTime;
+                Vector2 predictedDirection = (predictedPosition - (Vector2) Enemy.transform.position).normalized;
 
-                // Check if the attack is horizontal or vertical.
-                Vector2 facingDirection;
-                if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
-                    facingDirection = new Vector2(Mathf.Sign(direction.x), 0);
+                // Set the facing direction of the enemy to the predicted attack direction.
+                if (Mathf.Abs(predictedDirection.x) > Mathf.Abs(predictedDirection.y)) {
+                    // Horizontal direction.
+                    Enemy.Character.StateMachine.CurrentFacingDirection = Enemy.Character.StateMachine.ConvertVectorToFacingDirection(new Vector2(Mathf.Sign(predictedDirection.x), 0));
                 } else {
-                    facingDirection = new Vector2(0, Mathf.Sign(direction.y));
+                    // Vertical direction.
+                    Enemy.Character.StateMachine.CurrentFacingDirection = Enemy.Character.StateMachine.ConvertVectorToFacingDirection(new Vector2(0, Mathf.Sign(predictedDirection.y)));
                 }
 
-                // Set the facing direction of the enemy to the direction of the attack.
-                Enemy.Character.StateMachine.CurrentFacingDirection = Enemy.Character.StateMachine.ConvertVectorToFacingDirection(facingDirection);
+                // Check if the predicted position of the player is in range.
+                float distanceToPredictedPosition = Vector2.Distance(Enemy.transform.position, predictedPosition);
 
-                
-                // Get the player's velocity.
-                Vector2 playerVelocity = _target.GetComponentInParent<Player>().GetComponent<Rigidbody2D>().velocity;
-
-                // Attack the player when the player is not moving and is aligned with the enemy.
-                if (playerVelocity == Vector2.zero && (Mathf.Abs(direction.x) <= _alignmentDirectionThreshold || Mathf.Abs(direction.y) <= _alignmentDirectionThreshold)) {
-                    return true;
-                }
-
-                // Predict the player's position.
-                float predictionTime = Vector2.Distance(Enemy.transform.position, _target.transform.position) / _attackSpeed;
-                Vector2 predictedPosition = (Vector2)_target.transform.position + playerVelocity * predictionTime;
-
-                // Attack the player when reaching the predicted position and the player is aligned with the enemy.
-                if (Mathf.Abs(predictedPosition.x - Mathf.Round(predictedPosition.x)) <= _alignmentDirectionThreshold || Mathf.Abs(predictedPosition.y - Mathf.Round(predictedPosition.y)) <= _alignmentDirectionThreshold) {
+                // Return true to attack the player.
+                if (distanceToPredictedPosition <= AttackRange) {
                     return true;
                 }
             }
@@ -106,6 +95,7 @@ namespace DungeonArena.InputHandlers {
             }
             return null;
         }
+
 
         // Debugging Gizmos.
         private void OnDrawGizmos() {

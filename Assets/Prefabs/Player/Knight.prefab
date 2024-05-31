@@ -560,6 +560,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7651932939386506826, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _speed
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7688181181998618787, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Sprite
       value: 

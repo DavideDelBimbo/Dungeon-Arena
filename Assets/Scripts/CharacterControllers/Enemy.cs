@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using DungeonArena.Interfaces;
 using DungeonArena.Managers;
 using DungeonArena.States.StateMachines;
@@ -27,7 +26,6 @@ namespace DungeonArena.CharacterControllers {
         [SerializeField] private EnemySpawner _spawner;
         [SerializeField] private Material _spawnFlashMaterial;
         [SerializeField] private float _spawnFlashDuration = 0.1f;
-        [SerializeField] private LayerMask _walkableLayers;
         [SerializeField] private LayerMask _obstacleLayers;
 
 
@@ -40,7 +38,6 @@ namespace DungeonArena.CharacterControllers {
         public EnemySpawner Spawner { get => _spawner; set => _spawner = value; }
         public Material SpawnFlashMaterial => _spawnFlashMaterial;
         public float SpawnFlashDuration => _spawnFlashDuration;
-        public LayerMask WalkableLayers => _walkableLayers;
         public LayerMask ObstacleLayers => _obstacleLayers;
         public Action<IAgent> OnDeath { get; set; }
         public AgentType AgentType => AgentType.Enemy;

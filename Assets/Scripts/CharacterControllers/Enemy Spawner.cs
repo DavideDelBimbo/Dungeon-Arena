@@ -9,11 +9,15 @@ namespace DungeonArena.CharacterControllers {
     public class EnemySpawner : MonoBehaviour {
         [Header("Spawner Settings")]
         [SerializeField] private List<Enemy> _enemyPrefabs;
-        [SerializeField] private float _spawnRate = 1f;
-        [SerializeField] private float _spawnRadius = 5f;
+        [SerializeField] private float _spawnRate = 1.0f;
+        [SerializeField] private float _spawnRadius = 5.0f;
         [SerializeField] private int _maxEnemies = 10;
+        [SerializeField] private float _cellSize = 1.0f;
         [SerializeField] private Tilemap _groundTilemap;
-        [SerializeField] private LayerMask _ignoreLayersMask;
+        [SerializeField] private LayerMask _obstacleLayers;
+
+        [Header("Gizmo Settings")]
+        [SerializeField] private bool _drawGizmos = true;
 
         private List<Vector2> _validSpawnPositions = new();
         private readonly List<Enemy> _spawnedEnemies = new();
@@ -30,24 +34,23 @@ namespace DungeonArena.CharacterControllers {
             InvokeRepeating(nameof(SpawnEnemy), 0f, _spawnRate);
         }
 
+
+        // Gather all the valid spawn positions within the spawnable area.
         private List<Vector2> GatherValidSpawnPositions() {
-            List<Vector2> validPositions = new();
-            BoundsInt bounds = _groundTilemap.cellBounds;
-            Vector2 cellSize = (Vector2) _groundTilemap.cellSize;
+            List<Vector2> validPositions = new(); // List to store the valid spawn positions.
+            Vector2 spawnerOrigin = transform.position; // Get the position of the spawner. 
             
-            for (int x = bounds.xMin; x <= bounds.xMax; x++) {
-                for (int y = bounds.yMin; y <= bounds.yMax; y++) {
+            for (float x = spawnerOrigin.x - _spawnRadius; x <= spawnerOrigin.x + _spawnRadius; x += _cellSize) {
+                for (float y = spawnerOrigin.y - _spawnRadius; y <= spawnerOrigin.y + _spawnRadius; y += _cellSize) {
                     // Get the position of the current cell.
-                    Vector3Int cellPosition = new(x, y, (int) transform.position.z);
-                    Vector2 worldCellPosition = _groundTilemap.CellToWorld(cellPosition);
+                    Vector2 cellPosition = new(x, y);
 
-                    // Check if the tile is not within the ignore layer mask.
-                    bool isIgnored = Physics2D.OverlapCircle(worldCellPosition + cellSize / 2, 0.1f, _ignoreLayersMask);
-
-                    // Check if the tile is within the spawnable radius.
-                    if (Vector2.Distance(worldCellPosition, transform.position) <= _spawnRadius && _groundTilemap.HasTile(cellPosition) && !isIgnored) {
-                        // Add the center of the cell to the valid spawn positions list.
-                        validPositions.Add(worldCellPosition + cellSize / 2);
+                    // Check if the cell is within the spawnable radius and is a ground tile and there is no obstacle in the cell.
+                    if (Vector2.Distance(spawnerOrigin, cellPosition) <= _spawnRadius &&
+                            _groundTilemap.HasTile(new Vector3Int((int)cellPosition.x, (int)cellPosition.y, 0)) &&
+                            !Physics2D.OverlapCircle(cellPosition, _cellSize / 2, _obstacleLayers)) {
+                        // Add the the cell to the valid spawn positions list.
+                        validPositions.Add(cellPosition);
                     }
                 }
             }
@@ -55,6 +58,7 @@ namespace DungeonArena.CharacterControllers {
             return validPositions;
         }
 
+        // Spawn an enemy at a random valid spawn position.
         private void SpawnEnemy() {
             if (_spawnedEnemies.Count < _maxEnemies) {
                 // Randomly select an enemy prefab.
@@ -66,7 +70,6 @@ namespace DungeonArena.CharacterControllers {
                     // Instantiate the enemy at the spawn position.
                     Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition.Value, Quaternion.identity);
                     spawnedEnemy.Spawner = this;
-                    // spawnedEnemy.WalkableTilemap = _groundTilemap;
                     StartCoroutine(spawnedEnemy.Character.Flash(spawnedEnemy.SpawnFlashMaterial, spawnedEnemy.SpawnFlashDuration, 3));
 
                     // Add the spawned enemy to the spawned enemies list.
@@ -76,41 +79,41 @@ namespace DungeonArena.CharacterControllers {
             }
         }
 
+        // Get a random non occupied spawn position.
         private Vector2? GetSpawnPosition() {
             // Randomize the valid spawn positions list.
-            List<Vector2> randomValidSpawnPositions = _validSpawnPositions.OrderBy(x => Random.value).ToList();
-            Vector2 cellSize = _groundTilemap.cellSize;
+            List<Vector2> shuffledSpawnPositions = _validSpawnPositions.OrderBy(x => Random.value).ToList();
 
             // Iterate over the valid spawn positions.
-            foreach (Vector2 validPosition in randomValidSpawnPositions) {
-                bool isFree = true;
-
-                // Check if the player is inside the cell.
-                if (Vector2.Distance(validPosition, GameManager.Instance.Player.transform.position) <= cellSize.x / 2) {
-                    isFree = false;
-                    break;
-                }
-
-                // Check if some enemy is inside the cell.
-                foreach (Enemy enemy in _spawnedEnemies) {
-                    // Get the cell position of the enemy.
-                    Vector3Int enemyCellPosition = _groundTilemap.WorldToCell(enemy.transform.position);
-
-                    // Check if the enemy is inside the cell.
-                    if (Vector2.Distance(validPosition, enemy.transform.position) <= cellSize.x / 2) {
-                        isFree = false;
-                        break;
-                    }
-                }
-
-                // Return the position if it is not occupied.
-                if (isFree) {
-                    return validPosition;
+            foreach (Vector2 position in shuffledSpawnPositions) {
+                // Check if the position is free to spawn an enemy.
+                if (IsPositionFree(position)) {
+                    return position;
                 }
             }
+
             return null;
         }
 
+        // Check if the position is free to spawn an enemy.
+        private bool IsPositionFree(Vector2 position) {
+            // Check if the player is inside the cell.
+            if (Vector2.Distance(position, GameManager.Instance.Player.transform.position) <= _cellSize / 2) {
+                return false;
+            }
+
+            // Check if some enemy is inside the cell.
+            foreach (Enemy enemy in _spawnedEnemies) {
+                // Check if the enemy is inside the cell.
+                if (Vector2.Distance(position, enemy.transform.position) <= _cellSize / 2) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Handle the enemy death event.
         private void HandleEnemyDeath(IAgent enemy) {
             // Remove the enemy from the spawned enemies list.
             _spawnedEnemies.Remove(enemy as Enemy);
@@ -120,9 +123,19 @@ namespace DungeonArena.CharacterControllers {
 
         // Debugging Gizmos.
         private void OnDrawGizmos() {
+            if (!_drawGizmos) return;
+
             // Draw a wire sphere to visualize the spawn radius.
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _spawnRadius);
+
+            // Draw a wire sphere for each valid spawn position.
+            if (_validSpawnPositions != null) {
+                Gizmos.color = Color.green;
+                _validSpawnPositions.ForEach(validPosition => Gizmos.DrawWireSphere(validPosition, _cellSize / 2));
+            }
         }
     }
 }
+
+

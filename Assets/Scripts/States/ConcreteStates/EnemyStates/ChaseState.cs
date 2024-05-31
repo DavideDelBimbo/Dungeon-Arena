@@ -1,26 +1,19 @@
 using UnityEngine;
 using DungeonArena.Managers;
-using DungeonArena.CharacterControllers;
 using DungeonArena.Strategies.MovementStrategies;
 
 namespace DungeonArena.States.EnemyStates {
     public class ChaseState : EnemyState {
-        private Player _target;
-
-
-        protected override void Awake() {
-            base.Awake();
-
-            if (GameManager.Instance.Player != null)
-                _target = GameManager.Instance.Player;
-        }
+        [Header("Chase State Settings")]
+        [SerializeField] protected float _recalculatePathDistanceThreshold = 2.0f;
 
 
         public override void OnEnter() {
             base.OnEnter();
 
             // Set the movement strategy.
-            InputHandler.MovementStrategy = new ChaseMovementStrategy(_context, _target, _tolerance, _maxDistanceFromPath, _recalculationDistanceThreshold);
+            if (GameManager.Instance.Player != null)
+                InputHandler.MovementStrategy = new ChaseMovementStrategy(_context, GameManager.Instance.Player, _tolerance, _maxDistanceFromPath, _recalculatePathDistanceThreshold);
         }
 
         public override void OnUpdate() {

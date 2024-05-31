@@ -1,6 +1,7 @@
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using DungeonArena.Managers;
 
 namespace DungeonArena.Pathfinding {
     public class PathFinding : MonoBehaviour {

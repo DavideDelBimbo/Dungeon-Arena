@@ -770,6 +770,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bow
       objectReference: {fileID: 0}
+    - target: {fileID: 7651932939386506826, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _speed
+      value: 2.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7688181181998618787, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -777,6 +781,10 @@ PrefabInstance:
     - target: {fileID: 7688181181998618787, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850750825064066038, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}
+      propertyPath: _refreshTime
+      value: 0.08
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8699722576536717806, guid: a53ebc5b63a80924dac8ad20e92313b7, type: 3}

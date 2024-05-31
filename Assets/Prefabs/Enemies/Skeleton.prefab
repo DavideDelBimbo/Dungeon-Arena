@@ -514,7 +514,6 @@ MonoBehaviour:
   _detectionRange: 4
   _attackRange: 0.8
   _attackSpeed: 0.3
-  _alignmentDirectionThreshold: 0.1
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -544,9 +543,6 @@ MonoBehaviour:
   _spawner: {fileID: 0}
   _spawnFlashMaterial: {fileID: 2100000, guid: 571bb8552db667f48aa0fb40bbffc387, type: 2}
   _spawnFlashDuration: 0.1
-  _walkableLayers:
-    serializedVersion: 2
-    m_Bits: 0
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 2624
@@ -563,9 +559,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea415167ec66af4fa8edcf1752ae1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tolerance: 0.1
-  _maxDistanceFromPath: 1.5
-  _recalculationDistanceThreshold: 2
+  _tolerance: 0
+  _maxDistanceFromPath: 0
   _duration: 2
 --- !u!114 &1837509716172334521
 MonoBehaviour:
@@ -580,8 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tolerance: 0.1
-  _maxDistanceFromPath: 1.5
-  _recalculationDistanceThreshold: 2
+  _maxDistanceFromPath: 1
 --- !u!114 &4706232982999839776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,9 +588,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8376a5417e13a459108bf650dde475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tolerance: 0.6
-  _maxDistanceFromPath: 1.5
-  _recalculationDistanceThreshold: 2
+  _tolerance: 0.2
+  _maxDistanceFromPath: 1
+  _recalculatePathDistanceThreshold: 1
 --- !u!1 &3973515468149910050
 GameObject:
   m_ObjectHideFlags: 0

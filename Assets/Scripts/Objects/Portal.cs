@@ -1,34 +1,8 @@
 using UnityEngine;
-using DungeonArena.CharacterControllers;
-using DungeonArena.HitBoxes;
-
-/*namespace DungeonArena.Objects {
-    [RequireComponent(typeof(Collider2D))]
-    public class Portal : MonoBehaviour {
-        [Header("Portal Settings")]
-        [SerializeField] private Transform _destination;
-
-        private void OnTriggerEnter2D(Collider2D other) {
-            CharacterHitBox hitBox = other.GetComponent<CharacterHitBox>();
-            Player player = other.GetComponentInParent<Player>();
-
-            // Check if Player entered the portal.
-            if (hitBox != null && player != null) {
-                // Teleport the player to the destination.
-                Vector3 newPosition = player.transform.position;
-                newPosition.x = _destination.position.x;
-                newPosition.y = _destination.position.y;
-                player.transform.position = newPosition;
-
-                // Set the facing direction of the player.
-                player.Character.StateMachine.CurrentFacingDirection = Character.FacingDirection.Down;
-            }
-        }
-    }
-}*/
-
 using System.Collections;
 using System.Collections.Generic;
+using DungeonArena.CharacterControllers;
+using DungeonArena.HitBoxes;
 
 namespace DungeonArena.Objects {
     [RequireComponent(typeof(Collider2D))]
@@ -42,6 +16,7 @@ namespace DungeonArena.Objects {
         private static readonly List<Portal> _allPortals = new();
         private bool _isClosed = false;
         private Collider2D _portalCollider;
+
 
         private void Awake() {
             _portalCollider = GetComponent<Collider2D>();
@@ -78,6 +53,7 @@ namespace DungeonArena.Objects {
                 StartCoroutine(CloseAllPortalsTemporarily());
             }
         }
+
 
         private IEnumerator CloseAllPortalsTemporarily() {
             // Close all portals

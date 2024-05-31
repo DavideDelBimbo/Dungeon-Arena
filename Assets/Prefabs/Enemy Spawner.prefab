@@ -49,7 +49,9 @@ MonoBehaviour:
   _spawnRate: 1
   _spawnRadius: 3
   _maxEnemies: 2
+  _cellSize: 0.5
   _groundTilemap: {fileID: 0}
-  _ignoreLayersMask:
+  _obstacleLayers:
     serializedVersion: 2
     m_Bits: 576
+  _drawGizmos: 1

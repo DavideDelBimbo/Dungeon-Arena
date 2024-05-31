@@ -3,15 +3,15 @@ using DungeonArena.Strategies.MovementStrategies;
 
 namespace DungeonArena.States.EnemyStates {
     public class WaitState : EnemyState {
-        [Header("State Settings")]
-        [SerializeField] private float _duration = 2f;
+        [Header("Wait State Settings")]
+        [SerializeField] private float _duration = 2.0f;
 
 
         public override void OnEnter() {
             base.OnEnter();
 
             // Set the movement strategy.
-            InputHandler.MovementStrategy = new WaitMovementStrategy(_context);
+            InputHandler.MovementStrategy = new WaitMovementStrategy(_context, _tolerance, _maxDistanceFromPath);
 
             // Invoke the transition to Patrol state after the duration.
             Invoke(nameof(TransitionToPatrol), _duration);
