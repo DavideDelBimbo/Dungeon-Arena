@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using DungeonArena.Interfaces;
 using DungeonArena.Managers;
 using DungeonArena.CharacterControllers;
 using DungeonArena.Pathfinding;
 using DungeonArena.InputHandlers;
+using DungeonArena.States.CharacterStates;
 
 namespace DungeonArena.Strategies.MovementStrategies {
     public abstract class BaseMovementStrategy : IMovementStrategy {
@@ -39,25 +39,25 @@ namespace DungeonArena.Strategies.MovementStrategies {
 
         // Calculate the path to the target.
         protected void CalculatePathToTarget(Vector2 targetPosition) {
+            // Check if the enemy is dead.
+            if (_enemy.Character.StateMachine.CurrentState is DeadState) return;
+
             // Get the target node.
             Node targetNode = GridManager.Instance.GetNodeFromWorldPoint(targetPosition);
 
             // Calculate the path to the target node.
-            if (targetNode != null && targetNode.IsWalkable) {
-                // Create a list of dynamic obstacles (i.e. points in a radius around other enemies in range of this enemy).
-                List<Vector2> dynamicObstacles = new();
-                dynamicObstacles.AddRange(GameManager.Instance.Enemies
-                                .Where(enemy => enemy != null && enemy != _enemy && Vector2.Distance(enemy.transform.position, _enemy.transform.position) < _recalculatePathDistanceThreshold)
-                                .SelectMany(enemy => Physics2D.OverlapCircleAll(enemy.transform.position, _recalculatePathDistanceThreshold).Select(collider => (Vector2) collider.transform.position)));
-
+            if (targetNode != null && targetNode.IsWalkable && targetNode != GridManager.Instance.GetNodeFromWorldPoint(_enemy.transform.position)) {
                 // Find the path to the target node.
-                _currentPath = new Queue<Node>(Pathfinding.FindPath(_currentNode.WorldPosition, targetNode.WorldPosition, dynamicObstacles));
+                _currentPath = new Queue<Node>(Pathfinding.FindPath(_currentNode.WorldPosition, targetNode.WorldPosition));
+
+                // Reset the steps counter.
                 _stepsSinceLastNode = 0;
             }
         }
 
         // Move the enemy to the next node in the path.
         protected Vector2 MoveToNextNode() {
+            // Increment the steps counter.
             _stepsSinceLastNode++;
 
             // Check that exists a path.
@@ -110,7 +110,7 @@ namespace DungeonArena.Strategies.MovementStrategies {
             }
 
             // Check if the enemy is stuck in the same position for too long.
-            if (_stepsSinceLastNode > _maxStepsBeforeRecalculate) {
+            if (_maxStepsBeforeRecalculate > 0 && _stepsSinceLastNode > _maxStepsBeforeRecalculate) {
                 return true;
             }
 

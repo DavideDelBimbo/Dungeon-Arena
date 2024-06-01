@@ -14,9 +14,9 @@ namespace DungeonArena.States.CharacterStates {
             // Set the dead animation.
             _context.Movement.CurrentDirection = Vector2.zero;
 
-            // Disable all the colliders.
+            // Disable all the colliders (except for the kinematic ones).
             foreach (Collider2D collider in _context.GetComponentsInChildren<Collider2D>()) {
-                collider.enabled = false;
+                if (collider.isTrigger) collider.enabled = false;
             }
         }
 
@@ -32,6 +32,11 @@ namespace DungeonArena.States.CharacterStates {
         public override void OnExit() {
             base.OnExit();
 
+            // Disable kinematic collision.
+            foreach (Collider2D collider in _context.GetComponentsInChildren<Collider2D>()) {
+                if (!collider.isTrigger) collider.enabled = false;
+            }
+
             // Instantiate the dead particles VFX and destroy the agent.
             StartCoroutine(DeadCoroutine());
         }
@@ -39,6 +44,13 @@ namespace DungeonArena.States.CharacterStates {
 
         // Instantiate the dead particles VFX and destroy the agent.
         private IEnumerator DeadCoroutine() {
+            // Call the OnDeath event on the agent.
+            IAgent agent = _context.GetComponentInParent<IAgent>();
+            agent.OnDeath?.Invoke(agent);
+
+            // Disable the shadow sprite.
+            _context.ShadowSprite.gameObject.SetActive(false);
+
             // Instantiate the dead particles VFX.
             Vector2 position = transform.GetComponentInChildren<Renderer>().bounds.center;
             GameObject deadParticles = Instantiate(_destroyParticlesVFX, position, Quaternion.identity);
@@ -48,9 +60,7 @@ namespace DungeonArena.States.CharacterStates {
             parts.startColor = _destroyParticlesVFXColor;
             yield return new WaitForSeconds(parts.duration + parts.startLifetime.constant);
 
-            // Call the OnDeath event on the agent.
-            IAgent agent = _context.GetComponentInParent<IAgent>();
-            agent.OnDeath?.Invoke(agent);
+            // Die.
             agent.Die();
             yield break;
         }

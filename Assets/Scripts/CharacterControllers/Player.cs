@@ -13,6 +13,9 @@ namespace DungeonArena.CharacterControllers {
         [SerializeField] private Color _damageFlashColor = Color.red;
         [SerializeField] private float _damageFlashDuration = 0.1f;
 
+        [Header("Colliders")]
+        [SerializeField] private Collider2D _playerCollider;
+        [SerializeField] private Collider2D _characterCollider;
 
         private Coroutine _activeScoreMultiplierCoroutine;
 
@@ -36,6 +39,11 @@ namespace DungeonArena.CharacterControllers {
             Character.Agent = this;
             Character.Movement = Movement;
             Character.InputHandler = InputHandler;
+        }
+
+        private void Start() {
+            // Avoid collision between the player collider and the character collider.
+            Physics2D.IgnoreCollision(_playerCollider, _characterCollider, true);
         }
 
 

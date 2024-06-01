@@ -18,12 +18,14 @@ namespace DungeonArena.Managers {
         [SerializeField] private bool _showGrid = false;
 
         private Node[,] _grid;
+        private List<Node> _walkableNodes = new();
 
 
         public Vector2Int GridSize => new(Mathf.RoundToInt(_mapSize.x / _cellSize), Mathf.RoundToInt(_mapSize.y / _cellSize));
         public Vector2 OriginPosition => _originPosition;
         public Vector2 Center => _originPosition + _mapSize / 2;
         public float CellSize => _cellSize;
+        public List<Node> WalkableNodes => _walkableNodes;
 
 
         protected override void Awake() {
@@ -49,8 +51,12 @@ namespace DungeonArena.Managers {
                     // Check if the node is walkable.
                     Collider2D collider = Physics2D.OverlapCircle(nodeWorldCenterPosition, _cellSize / 2, _obstacleLayers);
                     bool isWalkable = _groundTilemap.HasTile(_groundTilemap.WorldToCell(nodeWorldPosition)) && collider == null;
-                    
-                    _grid[x, y] = new Node(nodeGridPosition, nodeWorldPosition, nodeWorldCenterPosition, isWalkable);
+
+                    Node node = new(nodeGridPosition, nodeWorldPosition, nodeWorldCenterPosition, isWalkable);
+                    _grid[x, y] = node;
+                    if (isWalkable) {
+                        _walkableNodes.Add(node);
+                    }
                 }
             }
         }
@@ -104,6 +110,21 @@ namespace DungeonArena.Managers {
                     }
                 }
             }
+        }
+
+        public List<Node> GetNodesInDirection(Vector2 position, Vector2 direction, float distance) {
+            List<Node> nodes = new();
+
+            for (int i = 0; i < distance; i++) {
+                position += direction;
+                Node node = GetNodeFromWorldPoint(position);
+
+                if (node != null && node.IsWalkable) {
+                    nodes.Add(node);
+                }
+            }
+
+            return nodes;
         }
     }
 }

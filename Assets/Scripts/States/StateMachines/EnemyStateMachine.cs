@@ -19,6 +19,7 @@ namespace DungeonArena.States.StateMachines {
             State.Wait => _context.WaitState,
             State.Patrol => _context.PatrolState,
             State.Chase => _context.ChaseState,
+            State.Vulnerable => _context.VulnerableState,
             _ => throw new InvalidEnumArgumentException($"Invalid enemy state value: {state}.")
         };
     }

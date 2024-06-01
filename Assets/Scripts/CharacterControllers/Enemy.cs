@@ -13,8 +13,9 @@ namespace DungeonArena.CharacterControllers {
     [RequireComponent(typeof(WaitState))]
     [RequireComponent(typeof(PatrolState))]
     [RequireComponent(typeof(ChaseState))]
+    [RequireComponent(typeof(VulnerableState))]
     public class Enemy : MonoBehaviour , IAgent, IDamageable {
-        public enum State { Wait, Patrol, Chase }
+        public enum State { Wait, Patrol, Chase, Vulnerable }
 
 
         [Header("Enemy Settings")]
@@ -27,6 +28,10 @@ namespace DungeonArena.CharacterControllers {
         [SerializeField] private Material _spawnFlashMaterial;
         [SerializeField] private float _spawnFlashDuration = 0.1f;
         [SerializeField] private LayerMask _obstacleLayers;
+
+        [Header("Colliders")]
+        [SerializeField] private Collider2D _enemyCollider;
+        [SerializeField] private Collider2D _characterCollider;
 
 
         [Header("States")]
@@ -51,6 +56,7 @@ namespace DungeonArena.CharacterControllers {
         public WaitState WaitState { get; private set; }
         public PatrolState PatrolState { get; private set; }
         public ChaseState ChaseState { get; private set; }
+        public VulnerableState VulnerableState { get; private set; }
 
 
         private void Awake() {
@@ -67,9 +73,14 @@ namespace DungeonArena.CharacterControllers {
             WaitState = GetComponent<WaitState>();
             PatrolState = GetComponent<PatrolState>();
             ChaseState = GetComponent<ChaseState>();
+            VulnerableState = GetComponent<VulnerableState>();
         }
 
         private void Start() {
+            // Avoid collision between the player collider and the character collider.
+            Physics2D.IgnoreCollision(_enemyCollider, _characterCollider, true);
+
+            // Initialize the state machine.
             StateMachine.Initialize(_initialState);
         }
 

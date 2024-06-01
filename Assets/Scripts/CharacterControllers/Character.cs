@@ -19,6 +19,7 @@ namespace DungeonArena.CharacterControllers {
 
         [Header("Character Settings")]
         [SerializeField] private Sprite _previewSprite;
+        [SerializeField] private SpriteRenderer _shadowSprite;
 
         [Header("States")]
         [SerializeField] private State _initialState = State.Idle;
@@ -26,6 +27,7 @@ namespace DungeonArena.CharacterControllers {
 
 
         public Sprite PreviewSprite => _previewSprite;
+        public SpriteRenderer ShadowSprite => _shadowSprite;
 
         public IAgent Agent { get; set; }
         public Movement Movement { get; set; }

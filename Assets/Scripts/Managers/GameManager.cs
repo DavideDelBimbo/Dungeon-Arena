@@ -33,6 +33,14 @@ namespace DungeonArena.Managers {
 
             // Reset the score.
             Score = 0;
+
+            // Reset the power-up timer.
+            PowerUpDuration = 0;
+            PowerUpTimer = 0;
+            StopAllCoroutines();
+
+            // Reset the score multiplier.
+            ScoreMultiplier = 1;
         }
 
         public void EndGame() {

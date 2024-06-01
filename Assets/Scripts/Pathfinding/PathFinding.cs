@@ -2,32 +2,40 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using DungeonArena.Managers;
+using System;
 
 namespace DungeonArena.Pathfinding {
     public class PathFinding : MonoBehaviour {
+        [Header("Pathfinding Settings")]
+        [SerializeField] private int _maxNodesProcessed = 1000;
+
         [Header("Gizmos Settings")]
         [SerializeField] private bool _showPath = true;
 
         private List<Node> _path = new();
-        private List<Node> _dynamicObstaclesNodes = new();
+        private List<Node> _dynamicObstacles = new();
 
 
         // Find the path from the start position to the target position.
-        public List<Node> FindPath(Vector3 startPosition, Vector3 targetPosition, List<Vector2> dynamicObstacles = null) {
+        public List<Node> FindPath(Vector3 startPosition, Vector3 targetPosition, List<Node> dynamicObstacles = null) {
             Node startNode = GridManager.Instance.GetNodeFromWorldPoint(startPosition);
             Node targetNode = GridManager.Instance.GetNodeFromWorldPoint(targetPosition);
             if (startNode == null || targetNode == null) return null;
-
-            // Set the walkable status of the dynamic obstacles.
-            _dynamicObstaclesNodes = dynamicObstacles?.ConvertAll(position => GridManager.Instance.GetNodeFromWorldPoint(position));
-            _dynamicObstaclesNodes?.ForEach(node => node.IsWalkable = false);
 
             // Initialize the open and closed lists.
             List<Node> openList = new() { startNode }; // List of nodes to be evaluated.
             HashSet<Node> closedList = new(); // List of nodes already evaluated.
 
+            _dynamicObstacles = dynamicObstacles;
+            int nodesProcessed = 0;
+
             // Loop until the open list is empty.
             while (openList.Count > 0) {
+                if (nodesProcessed > _maxNodesProcessed) {
+                    Debug.LogWarning("Pathfinding aborted: too many nodes processed");
+                    break;
+                }
+
                 // Get the node with the lowest F cost (or H cost if there is a tie).
                 Node currentNode = openList.OrderBy(node => node.FCost).ThenBy(node => node.HCost).First();
                 openList.Remove(currentNode); // Remove the current node from the evaluation list.
@@ -38,7 +46,7 @@ namespace DungeonArena.Pathfinding {
                     return RetracePath(startNode, targetNode);
                 }
 
-                foreach (Node neighbor in GridManager.Instance.GetNeighbors(currentNode).Where(n => n.IsWalkable && !closedList.Contains(n))) {
+                foreach (Node neighbor in GridManager.Instance.GetNeighbors(currentNode).Where(n => n.IsWalkable && (!_dynamicObstacles?.Contains(n) ?? true) && !closedList.Contains(n))) {
                     // Get the movement cost to the neighbor.
                     float costToNeighbor = currentNode.GCost + GetDistance(currentNode, neighbor);
 
@@ -53,6 +61,9 @@ namespace DungeonArena.Pathfinding {
                         }
                     }
                 }
+                
+                // Update the number of nodes processed.
+                nodesProcessed++;
             }
             
             // Return an empty list if no path is found.
@@ -71,9 +82,6 @@ namespace DungeonArena.Pathfinding {
                 path.Add(currentNode);
                 currentNode = currentNode.Parent;
             }
-
-            // Reset the walkable status of the dynamic obstacles.
-            _dynamicObstaclesNodes?.ForEach(node => node.IsWalkable = true);
 
             // Reverse the path to get the correct order.
             path.Reverse();
@@ -95,9 +103,9 @@ namespace DungeonArena.Pathfinding {
             if (_path.Count > 0 && _showPath) {
                 Gizmos.color = Color.green;
                 _path.ForEach(node => { Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one); });
-
+            
                 Gizmos.color = Color.red;
-                _dynamicObstaclesNodes?.ForEach(node => { Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one); });
+                _dynamicObstacles?.ForEach(node => { Gizmos.DrawCube(node.WorldCenterPosition, 0.5f * GridManager.Instance.CellSize * Vector2.one); });
             }
         }
     }

@@ -8,11 +8,11 @@ namespace DungeonArena.Strategies.MovementStrategies {
         private Vector2 _lastTargetPosition;
 
 
-        public ChaseMovementStrategy(Enemy enemy, Player target, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f,
+        public ChaseMovementStrategy(Enemy enemy, float tolerance = 0.1f, float maxDistanceFromPath = 1.5f,
                                     float recalculatePathDistanceThreshold = 2.0f, int maxStepsBeforeRecalculate = 100) :
                                     base(enemy, tolerance, maxDistanceFromPath, recalculatePathDistanceThreshold, maxStepsBeforeRecalculate)
         {
-            _target = target;
+            _target = GameManager.Instance.Player;
             _lastTargetPosition = _target.transform.position;
         }
 
