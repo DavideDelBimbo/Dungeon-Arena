@@ -106,8 +106,9 @@ MonoBehaviour:
   _damage: 2
   _knockBackPower: 2
   _knockBackDuration: 0.1
-  _lifeTime: 0.5
+  _lifeTime: 0.4
   _hitVFX: {fileID: 3687111875718497032, guid: 0de0d21640388b1439dc65833be04328, type: 3}
+  _fadeDuration: 0.2
   _hitLayerMask:
     serializedVersion: 2
     m_Bits: 1088

@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 using DungeonArena.Interfaces;
 using DungeonArena.HitBoxes;
 using static DungeonArena.CharacterControllers.Character;
@@ -13,7 +14,8 @@ namespace DungeonArena.Weapons.Projectiles {
         [SerializeField] private int _knockBackPower = 5;
         [SerializeField] protected float _knockBackDuration = 0.1f;
         [SerializeField] private float _lifeTime = 2f;
-        [SerializeField] GameObject _hitVFX;
+        [SerializeField] private GameObject _hitVFX;
+        [SerializeField] private float _fadeDuration = 0.5f;
         [SerializeField] private LayerMask _hitLayerMask;
 
         private Vector2 _knockBackDirection;
@@ -25,7 +27,8 @@ namespace DungeonArena.Weapons.Projectiles {
 
         protected virtual void Start() {
             // Destroy the projectile after a certain amount of time.
-            Destroy(gameObject, _lifeTime);
+            //Destroy(gameObject, _lifeTime);
+            Invoke(nameof(DestroyProjectile), _lifeTime);
         }
 
         protected void Update() {
@@ -82,6 +85,33 @@ namespace DungeonArena.Weapons.Projectiles {
             }
 
             // Destroy the projectile after hitting an object.
+            Destroy(gameObject);
+        }
+
+        // Destroy the projectile.
+        private void DestroyProjectile() {
+            // Cancel the destroy projectile invoke.
+            CancelInvoke();
+
+            // Destroy the projectile.
+            StartCoroutine(FadeAndDestroy());
+        }
+
+        // Animate the projectile fade and destroy it.
+        private IEnumerator FadeAndDestroy() {
+            // Scale down the item.
+            Vector3 initialScale = transform.localScale;
+            Vector3 targetScale = Vector3.zero;
+
+            float time = 0;
+            while (time < _fadeDuration) {
+                time += Time.deltaTime;
+                transform.localScale = Vector3.Lerp(initialScale, targetScale, time / _fadeDuration);
+                GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, time / _fadeDuration);
+                yield return null;
+            }
+
+            // Destroy the item.
             Destroy(gameObject);
         }
     }
