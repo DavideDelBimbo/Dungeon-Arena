@@ -11,13 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacles
+  - Players
+  - Enemies
+  - Forbidden Area
+  - Hit Boxes
+  - Portals
+  - Character Colldiers
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 4005597229
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
