@@ -105,26 +105,11 @@ namespace DungeonArena.Managers {
 
                 if (_grid != null) {
                     foreach (Node node in _grid) {
-                        Gizmos.color = node.IsWalkable ? Color.white.WithAlpha(0.2f) : Color.red.WithAlpha(0.2f);
+                        Gizmos.color = node.IsWalkable ? Color.white : Color.red;
                         Gizmos.DrawWireCube(node.WorldCenterPosition, Vector2.one * _cellSize);
                     }
                 }
             }
-        }
-
-        public List<Node> GetNodesInDirection(Vector2 position, Vector2 direction, float distance) {
-            List<Node> nodes = new();
-
-            for (int i = 0; i < distance; i++) {
-                position += direction;
-                Node node = GetNodeFromWorldPoint(position);
-
-                if (node != null && node.IsWalkable) {
-                    nodes.Add(node);
-                }
-            }
-
-            return nodes;
         }
     }
 }

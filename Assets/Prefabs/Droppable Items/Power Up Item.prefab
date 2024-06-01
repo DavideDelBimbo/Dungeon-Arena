@@ -163,8 +163,9 @@ MonoBehaviour:
   - {fileID: 3643911990342898850}
   - {fileID: 393148846437367880}
   _lifetime: 5
-  _dropChance: 1
+  _dropChance: 0.4
   _destroyItemVFX: {fileID: 3687111875718497032, guid: b86c5685b03ea964cbaacd64815e05a8, type: 3}
+  _scaleDuration: 0.5
 --- !u!114 &3643911990342898850
 MonoBehaviour:
   m_ObjectHideFlags: 0
