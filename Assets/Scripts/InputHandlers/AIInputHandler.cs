@@ -53,7 +53,7 @@ namespace DungeonArena.InputHandlers {
         }
         
         public bool GetFire() {
-            if (IsPlayerDetected) {                
+            if (IsPlayerDetected) {
                 // Predict the player's position and attack direction.
                 float predictionTime = Vector2.Distance(Enemy.transform.position, Target.transform.position) / _attackSpeed;
                 Vector2 predictedPosition = (Vector2) Target.transform.position + Target.Movement.Body.velocity * predictionTime;
